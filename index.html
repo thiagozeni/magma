@@ -24,9 +24,11 @@
       --border:    #222222;
       --font-head: 'Barlow Condensed', sans-serif;
       --font-body: 'Barlow', sans-serif;
+      --ease:      cubic-bezier(0.65, 0.05, 0, 1);
+      --dur:       0.75s;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: auto; } /* Lenis cuida do smooth scroll */
 
     body {
       background: var(--bg);
@@ -96,12 +98,80 @@
     /* fade-in animation */
     .fade-in {
       opacity: 0;
-      transform: translateY(32px);
-      transition: opacity .6s ease, transform .6s ease;
+      transform: translateY(44px);
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
     }
     .fade-in.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* ── Split text ── */
+    .char-wrap {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      line-height: 1.1;
+    }
+    .char {
+      display: inline-block;
+      transform: translateY(108%);
+      transition: transform var(--dur) var(--ease);
+    }
+    [data-split].chars-ready .char { transform: translateY(0); }
+
+    /* ── Clip-path reveal for images ── */
+    .clip-reveal {
+      clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+      transition: clip-path .9s var(--ease);
+    }
+    .clip-reveal.visible {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    /* ── Marquee ── */
+    .marquee-band {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 13px 0;
+      background: var(--surface);
+      pointer-events: none;
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee-scroll 32s linear infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; }
+    }
+    .marquee-item {
+      white-space: nowrap;
+      font-family: var(--font-head);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 36px;
+    }
+    .marquee-item .dot { color: var(--accent); margin: 0 4px; }
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── Nav at-top (transparente no hero) ── */
+    nav {
+      transition: background .6s var(--ease), border-color .6s var(--ease),
+                  backdrop-filter .6s var(--ease);
+    }
+    nav.at-top {
+      background: transparent !important;
+      border-bottom-color: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
     }
 
     /* ============================================================
@@ -1767,6 +1837,14 @@
     </div>
   </section>
 
+  <!-- ── MARQUEE ── -->
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">MAGMA<span class="dot">·</span>NOVO HAMBURGO<span class="dot">·</span>ROCK GAÚCHO<span class="dot">·</span>2001–2025<span class="dot">·</span>PRA RECOMEÇAR<span class="dot">·</span>MONOPHOBIA<span class="dot">·</span>FIERGS<span class="dot">·</span>CPM 22<span class="dot">·</span>FRESNO<span class="dot">·</span>CACHORRO GRANDE<span class="dot">·</span></span>
+      <span class="marquee-item">MAGMA<span class="dot">·</span>NOVO HAMBURGO<span class="dot">·</span>ROCK GAÚCHO<span class="dot">·</span>2001–2025<span class="dot">·</span>PRA RECOMEÇAR<span class="dot">·</span>MONOPHOBIA<span class="dot">·</span>FIERGS<span class="dot">·</span>CPM 22<span class="dot">·</span>FRESNO<span class="dot">·</span>CACHORRO GRANDE<span class="dot">·</span></span>
+    </div>
+  </div>
+
   <!-- ============================================================
        HISTORIA
   ============================================================ -->
@@ -1788,7 +1866,7 @@
       <!-- Coluna texto -->
       <div class="historia-text-col fade-in" data-delay="2">
         <p class="historia-eyebrow">Novo Hamburgo · RS · 2001</p>
-        <h2 class="historia-titulo" id="historia-title">A Banda</h2>
+        <h2 class="historia-titulo" id="historia-title" data-split>A Banda</h2>
         <p>
           Fundada em 2001 em Novo Hamburgo, no Rio Grande do Sul, a Magma nasceu de uma paixão pelo rock moderno dos anos 2000 — com o Silverchair como ponto de partida. O que começou como um projeto de covers rapidamente evoluiu para uma voz própria: riffs pesados, melodias marcantes e letras que falavam da geração que crescia junto com a banda.
         </p>
@@ -1812,8 +1890,8 @@
   ============================================================ -->
   <section id="timeline" class="section" aria-labelledby="timeline-title">
     <div class="container">
-      <div class="section-header fade-in">
-        <h2 id="timeline-title">Timeline</h2>
+      <div class="section-header fade-in" data-split-parent>
+        <h2 id="timeline-title" data-split>Timeline</h2>
         <p>Cada ano, uma chama acesa</p>
       </div>
 
@@ -1959,8 +2037,8 @@
   ============================================================ -->
   <section id="formacoes" class="section" aria-labelledby="formacoes-title">
     <div class="container">
-      <div class="section-header fade-in">
-        <h2 id="formacoes-title">Formações</h2>
+      <div class="section-header fade-in" data-split-parent>
+        <h2 id="formacoes-title" data-split>Formações</h2>
         <p>As pessoas que fizeram a Magma existir</p>
       </div>
 
@@ -2129,8 +2207,8 @@
   ============================================================ -->
   <section id="discografia" aria-labelledby="disco-title">
     <div class="container" style="padding:80px 24px 40px">
-      <div class="section-header fade-in">
-        <h2 id="disco-title">Discografia</h2>
+      <div class="section-header fade-in" data-split-parent>
+        <h2 id="disco-title" data-split>Discografia</h2>
         <p>Três discos. Uma história gravada para sempre.</p>
       </div>
     </div>
@@ -2297,8 +2375,8 @@
   ============================================================ -->
   <section id="galeria" class="section" aria-labelledby="galeria-title">
     <div class="container">
-      <div class="section-header fade-in">
-        <h2 id="galeria-title">Galeria</h2>
+      <div class="section-header fade-in" data-split-parent>
+        <h2 id="galeria-title" data-split>Galeria</h2>
         <p>Momentos guardados — clique para ampliar</p>
       </div>
     </div>
@@ -2576,8 +2654,8 @@
     <div class="flare flare-gold" data-depth="1.4" style="width:260px;height:260px;bottom:-40px;right:8%;" aria-hidden="true"></div>
 
     <div class="container" style="position:relative;z-index:2">
-      <div class="section-header fade-in">
-        <h2 id="videos-title">Vídeos</h2>
+      <div class="section-header fade-in" data-split-parent>
+        <h2 id="videos-title" data-split>Vídeos</h2>
         <p>A Magma em movimento</p>
       </div>
 
@@ -2630,8 +2708,8 @@
   ============================================================ -->
   <section id="links" class="section" aria-labelledby="links-title">
     <div class="container">
-      <div class="section-header fade-in">
-        <h2 id="links-title">Links &amp; Redes</h2>
+      <div class="section-header fade-in" data-split-parent>
+        <h2 id="links-title" data-split>Links &amp; Redes</h2>
         <p>Encontre a Magma na internet</p>
       </div>
 
@@ -2943,6 +3021,87 @@
     }
 
     window.addEventListener('scroll', updateActiveNav, { passive: true });
+  </script>
+
+  <!-- ── LENIS SMOOTH SCROLL ── -->
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+  (function() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+    function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); }
+    requestAnimationFrame(lenisRaf);
+    // expõe para o parallax usar
+    window._lenis = lenis;
+  })();
+  </script>
+
+  <!-- ── SPLIT TEXT ── -->
+  <script>
+  (function() {
+    var ease = 'var(--dur) var(--ease)';
+    // split cada [data-split] em chars individualmente
+    function splitEl(el) {
+      var text = el.textContent;
+      el.textContent = '';
+      el.setAttribute('aria-label', text);
+      var chars = text.split('');
+      chars.forEach(function(ch, i) {
+        var wrap = document.createElement('span');
+        wrap.className = 'char-wrap';
+        var inner = document.createElement('span');
+        inner.className = 'char';
+        inner.style.transitionDelay = (i * 32) + 'ms';
+        inner.textContent = ch === ' ' ? '\u00A0' : ch;
+        wrap.appendChild(inner);
+        el.appendChild(wrap);
+      });
+      el.dataset.split = 'done';
+    }
+
+    document.querySelectorAll('[data-split]').forEach(splitEl);
+
+    // dispara quando o pai (.fade-in) fica visível
+    var splitObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        // encontra todos os [data-split=done] dentro do elemento visível
+        var targets = entry.target.querySelectorAll
+          ? entry.target.querySelectorAll('[data-split="done"]')
+          : [];
+        // caso o próprio elemento seja o split target
+        if (entry.target.dataset && entry.target.dataset.split === 'done') {
+          entry.target.classList.add('chars-ready');
+        }
+        targets.forEach(function(t) { t.classList.add('chars-ready'); });
+        splitObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+
+    // observa os pais .fade-in que contêm [data-split]
+    document.querySelectorAll('[data-split-parent], [data-split]').forEach(function(el) {
+      splitObserver.observe(el);
+    });
+  })();
+  </script>
+
+  <!-- ── NAV AT-TOP ── -->
+  <script>
+  (function() {
+    var nav = document.querySelector('nav');
+    var hero = document.querySelector('#inicio');
+    if (!nav || !hero) return;
+    function checkNav() {
+      var heroBottom = hero.getBoundingClientRect().bottom;
+      if (heroBottom > 80) {
+        nav.classList.add('at-top');
+      } else {
+        nav.classList.remove('at-top');
+      }
+    }
+    checkNav();
+    window.addEventListener('scroll', checkNav, { passive: true });
+  })();
   </script>
 
   <!-- ── PARALLAX ENGINE ── -->
