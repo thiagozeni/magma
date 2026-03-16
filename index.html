@@ -304,7 +304,7 @@
     .hero-bg {
       position: absolute;
       inset: 0;
-      background-image: url('imgs/ShowSapiranga%20005.jpg');
+      background-image: url('imgs/fotos/ShowSapiranga%20005.jpg');
       background-size: cover;
       background-position: center 30%;
       background-repeat: no-repeat;
@@ -332,14 +332,35 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 0;
       padding: 0 24px;
     }
 
     .hero-logo-svg {
-      width: 96px;
-      height: 96px;
-      filter: drop-shadow(0 0 24px rgba(224,90,26,.6));
+      height: 108px;
+      width: auto;
+      filter: brightness(0) invert(1) drop-shadow(0 0 24px rgba(224,90,26,.6));
+      margin-bottom: 48px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .nav-logo-svg {
+      height: 28px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+
+    .footer-logo img {
+      height: 36px;
+      width: auto;
+      filter: brightness(0) invert(1);
     }
 
     .hero-title {
@@ -374,7 +395,7 @@
     }
 
     .hero-cta {
-      margin-top: 12px;
+      margin-top: 0;
       display: inline-flex;
       align-items: center;
       gap: 10px;
@@ -439,7 +460,7 @@
     .historia-bg {
       position: absolute;
       inset: 0;
-      background-image: url('imgs/Fotos%20-%2001915.jpg');
+      background-image: url('imgs/fotos/Fotos%20-%2001915.jpg');
       background-size: cover;
       background-position: center 20%;
       background-repeat: no-repeat;
@@ -873,6 +894,16 @@
       color: var(--muted);
       text-align: center;
       margin-bottom: 24px;
+    }
+
+    .spotify-albums {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .spotify-albums { grid-template-columns: 1fr; }
     }
 
     /* ============================================================
@@ -1742,15 +1773,7 @@
   <nav id="nav">
     <div class="nav-inner">
       <a href="#inicio" class="nav-logo" aria-label="Magma — início">
-        <svg class="nav-logo-svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="18" cy="18" r="17" stroke="#E05A1A" stroke-width="1.5"/>
-          <!-- M formado por triângulos/chamas -->
-          <polygon points="6,27 12,9 18,20 24,9 30,27" fill="none" stroke="#E05A1A" stroke-width="2" stroke-linejoin="round"/>
-          <polygon points="10,27 12,9 14,18" fill="#E05A1A" opacity=".25"/>
-          <polygon points="22,18 24,9 26,27" fill="#E05A1A" opacity=".25"/>
-          <polygon points="14,21 18,20 22,21 18,27" fill="#C87A2A" opacity=".6"/>
-        </svg>
-        <span class="nav-logo-text">MAGMA</span>
+        <img src="imgs/visual-id/logo-magma-alpha.png" class="nav-logo-svg" alt="" aria-hidden="true">
       </a>
 
       <ul class="nav-links" role="list">
@@ -1790,7 +1813,7 @@
   <section id="inicio" aria-label="Magma — apresentação">
     <!-- BG parallax -->
     <div class="hero-bg-wrap" aria-hidden="true">
-      <img src="imgs/ShowSapiranga%20005.jpg" alt="" data-depth="0.2" loading="eager">
+      <img src="imgs/fotos/ShowSapiranga%20005.jpg" alt="" data-depth="0.2" loading="eager">
     </div>
     <div class="hero-overlay" aria-hidden="true"></div>
 
@@ -1803,26 +1826,14 @@
     <div class="flare flare-dot"    data-depth="2.0" style="top:50%;left:22%;"                                    aria-hidden="true"></div>
 
     <div class="hero-content">
-      <!-- Logo SVG grande -->
-      <svg class="hero-logo-svg" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo Magma">
-        <circle cx="48" cy="48" r="46" stroke="#E05A1A" stroke-width="2"/>
-        <!-- chamas externas suaves -->
-        <ellipse cx="48" cy="20" rx="4" ry="8" fill="#E05A1A" opacity=".15"/>
-        <ellipse cx="30" cy="26" rx="3" ry="6" fill="#C87A2A" opacity=".1"/>
-        <ellipse cx="66" cy="26" rx="3" ry="6" fill="#C87A2A" opacity=".1"/>
-        <!-- M principal -->
-        <polygon points="16,74 28,22 48,54 68,22 80,74" fill="none" stroke="#E05A1A" stroke-width="3" stroke-linejoin="round"/>
-        <!-- preenchimentos internos (chamas) -->
-        <polygon points="20,74 28,22 36,50" fill="#E05A1A" opacity=".2"/>
-        <polygon points="60,50 68,22 76,74" fill="#E05A1A" opacity=".2"/>
-        <polygon points="36,58 48,54 60,58 48,74" fill="#C87A2A" opacity=".5"/>
-        <!-- brilho central -->
-        <circle cx="48" cy="62" r="3" fill="#C87A2A" opacity=".8"/>
-      </svg>
+      <!-- Logo oficial -->
+      <img src="imgs/visual-id/logo-magma-alpha.png" class="hero-logo-svg" alt="Logo Magma">
 
-      <h1 class="hero-title">MAGMA</h1>
-      <p class="hero-years">2001 &mdash; 2025</p>
-      <p class="hero-location">Novo Hamburgo &middot; Rio Grande do Sul</p>
+      <div class="hero-meta">
+        <p class="hero-years">2001 &mdash; 2025</p>
+        <p class="hero-location">Novo Hamburgo &middot; Rio Grande do Sul</p>
+      </div>
+
       <a href="#historia" class="hero-cta">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M12 5v14M5 12l7 7 7-7"/>
@@ -1853,7 +1864,7 @@
 
       <!-- Coluna foto -->
       <div class="historia-photo-col parallax-scene fade-in">
-        <img src="imgs/IMG_20251005_154441_246%281%29.jpg" alt="Magma — os cinco integrantes reunidos, outubro 2025" data-depth="0.25" loading="lazy">
+        <img src="imgs/fotos/IMG_20251005_154441_246%281%29.jpg" alt="Magma — os cinco integrantes reunidos, outubro 2025" data-depth="0.25" loading="lazy">
         <!-- Flare sobre a foto -->
         <div class="flare flare-orb-sm" data-depth="1.3"
              style="width:220px;height:220px;top:10%;right:5%;" aria-hidden="true"></div>
@@ -1907,7 +1918,7 @@
           <div class="tl-dot" aria-hidden="true"></div>
           <div class="tl-side">
             <div class="tl-photo-wrap rotate-r fade-in" data-delay="2">
-              <img src="imgs/foto07.jpg" alt="Magma — primeiros tempos" loading="lazy">
+              <img src="imgs/fotos/foto07.jpg" alt="Magma — primeiros tempos" loading="lazy">
             </div>
           </div>
         </div>
@@ -1916,7 +1927,7 @@
         <div class="tl-event fade-in">
           <div class="tl-side">
             <div class="tl-photo-wrap rotate-l fade-in" data-delay="2">
-              <img src="imgs/foto14.jpg" alt="Magma — segunda formação" loading="lazy">
+              <img src="imgs/fotos/foto14.jpg" alt="Magma — segunda formação" loading="lazy">
             </div>
           </div>
           <div class="tl-dot" aria-hidden="true"></div>
@@ -1937,7 +1948,7 @@
           <div class="tl-dot" aria-hidden="true"></div>
           <div class="tl-side">
             <div class="tl-photo-wrap rotate-r fade-in" data-delay="2">
-              <img src="imgs/foto02.jpg" alt="Magma — EP 2004" loading="lazy">
+              <img src="imgs/fotos/foto02.jpg" alt="Magma — EP 2004" loading="lazy">
             </div>
           </div>
         </div>
@@ -1946,7 +1957,7 @@
         <div class="tl-event fade-in tl-highlight">
           <div class="tl-side">
             <div class="tl-photo-wrap rotate-l fade-in" data-delay="2">
-              <img src="imgs/ShowSapiranga%20038.jpg" alt="Magma — show 2006" loading="lazy">
+              <img src="imgs/fotos/ShowSapiranga%20038.jpg" alt="Magma — show 2006" loading="lazy">
             </div>
           </div>
           <div class="tl-dot" aria-hidden="true"></div>
@@ -1967,7 +1978,7 @@
           <div class="tl-dot" aria-hidden="true"></div>
           <div class="tl-side">
             <div class="tl-photo-wrap rotate-r fade-in" data-delay="2">
-              <img src="imgs/ShowSapiranga%20046.jpg" alt="Magma — show 2007" loading="lazy">
+              <img src="imgs/fotos/ShowSapiranga%20046.jpg" alt="Magma — show 2007" loading="lazy">
             </div>
           </div>
         </div>
@@ -1976,7 +1987,7 @@
         <div class="tl-event fade-in">
           <div class="tl-side">
             <div class="tl-photo-wrap rotate-l fade-in" data-delay="2">
-              <img src="imgs/DSC02489.JPG" alt="Magma — Monophobia 2009" loading="lazy">
+              <img src="imgs/fotos/DSC02489.JPG" alt="Magma — Monophobia 2009" loading="lazy">
             </div>
           </div>
           <div class="tl-dot" aria-hidden="true"></div>
@@ -2002,7 +2013,7 @@
         <div class="tl-event fade-in tl-highlight">
           <div class="tl-side">
             <div class="tl-photo-wrap rotate-l fade-in" data-delay="2">
-              <img src="imgs/Screenshot_20210620-104758_YouTube.jpg" alt="Magma — 20 anos, medley Bon Jovi" loading="lazy">
+              <img src="imgs/fotos/Screenshot_20210620-104758_YouTube.jpg" alt="Magma — 20 anos, medley Bon Jovi" loading="lazy">
             </div>
           </div>
           <div class="tl-dot" aria-hidden="true"></div>
@@ -2023,7 +2034,7 @@
           <div class="tl-dot" aria-hidden="true"></div>
           <div class="tl-side">
             <div class="tl-photo-wrap highlight fade-in" data-delay="2">
-              <img src="imgs/IMG_20251005_154441_246.jpg" alt="Magma — reencontro 2025" loading="lazy">
+              <img src="imgs/fotos/IMG_20251005_154441_246.jpg" alt="Magma — reencontro 2025" loading="lazy">
             </div>
           </div>
         </div>
@@ -2127,7 +2138,7 @@
           <p>2004–2006 · A formação que gravou os discos e tocou nos grandes festivais</p>
         </div>
         <figure class="formacao-band-photo">
-          <img src="imgs/Pra%20Recome%C3%A7ar.jpg" alt="Magma — formação oficial (Ronald, Thiago, Natanael, Márcio, Nico), 2006" loading="lazy">
+          <img src="imgs/fotos/Pra%20Recome%C3%A7ar.jpg" alt="Magma — formação oficial (Ronald, Thiago, Natanael, Márcio, Nico), 2006" loading="lazy">
           <figcaption>Ronald · Thiago · Natanael · Márcio · Nico — 2006</figcaption>
         </figure>
         <div class="members-grid">
@@ -2215,14 +2226,14 @@
 
     <!-- EP 2004 -->
     <div class="disco-section parallax-scene fade-in">
-      <img class="disco-scene-img" src="imgs/foto13.jpg" alt="" aria-hidden="true" data-depth="0.2" loading="lazy">
+      <img class="disco-scene-img" src="imgs/fotos/foto13.jpg" alt="" aria-hidden="true" data-depth="0.2" loading="lazy">
       <div class="disco-scene-overlay" style="background:linear-gradient(135deg,rgba(8,8,8,.97) 45%,rgba(8,8,8,.65) 100%)"></div>
       <div class="flare flare-orb" data-depth="1.3" style="width:320px;height:320px;top:-60px;right:8%;" aria-hidden="true"></div>
       <div class="flare flare-streak" data-depth="1.5" style="width:500px;top:40%;right:-80px;transform:rotate(-20deg);" aria-hidden="true"></div>
       <div class="container">
         <div class="disco-layout">
           <div class="disco-cover-col fade-in">
-            <img src="imgs/EP.jpg" alt="Capa EP Magma 2004" loading="lazy">
+            <img src="imgs/fotos/EP.jpg" alt="Capa EP Magma 2004" loading="lazy">
             <span class="disco-type-tag">EP</span>
           </div>
           <div class="disco-info-col fade-in" data-delay="2">
@@ -2245,13 +2256,13 @@
 
     <!-- Pra Recomeçar 2006 -->
     <div class="disco-section parallax-scene fade-in">
-      <img class="disco-scene-img" src="imgs/ShowSapiranga%20045.jpg" alt="" aria-hidden="true" data-depth="0.2" loading="lazy">
+      <img class="disco-scene-img" src="imgs/fotos/ShowSapiranga%20045.jpg" alt="" aria-hidden="true" data-depth="0.2" loading="lazy">
       <div class="disco-scene-overlay" style="background:linear-gradient(225deg,rgba(8,8,8,.97) 45%,rgba(8,8,8,.55) 100%)"></div>
       <div class="flare flare-gold" data-depth="1.4" style="width:300px;height:300px;bottom:-30px;left:5%;" aria-hidden="true"></div>
       <div class="container">
         <div class="disco-layout flip">
           <div class="disco-cover-col fade-in">
-            <img src="imgs/Pra%20Recome%C3%A7ar.jpg" alt="Capa Pra Recomeçar 2006" loading="lazy">
+            <img src="imgs/fotos/Pra%20Recome%C3%A7ar.jpg" alt="Capa Pra Recomeçar 2006" loading="lazy">
             <span class="disco-type-tag">Álbum</span>
           </div>
           <div class="disco-info-col fade-in" data-delay="2">
@@ -2272,13 +2283,13 @@
 
     <!-- Monophobia 2009 -->
     <div class="disco-section parallax-scene fade-in">
-      <img class="disco-scene-img" src="imgs/DSC02375.JPG" alt="" aria-hidden="true" data-depth="0.2" loading="lazy">
+      <img class="disco-scene-img" src="imgs/fotos/DSC02375.JPG" alt="" aria-hidden="true" data-depth="0.2" loading="lazy">
       <div class="disco-scene-overlay" style="background:linear-gradient(135deg,rgba(8,8,8,.97) 45%,rgba(8,8,8,.6) 100%)"></div>
       <div class="flare flare-orb-sm" data-depth="1.3" style="width:250px;height:250px;top:10%;right:12%;" aria-hidden="true"></div>
       <div class="container">
         <div class="disco-layout">
           <div class="disco-cover-col fade-in">
-            <img src="imgs/Monophobia.jpg" alt="Capa Monophobia 2009" loading="lazy">
+            <img src="imgs/fotos/Monophobia.jpg" alt="Capa Monophobia 2009" loading="lazy">
             <span class="disco-type-tag">Álbum</span>
           </div>
           <div class="disco-info-col fade-in" data-delay="2">
@@ -2301,13 +2312,29 @@
     <div class="container" style="padding:48px 24px">
       <div class="spotify-section fade-in">
         <h3>Ouça no Spotify</h3>
-        <iframe
-          style="border-radius:12px"
-          src="https://open.spotify.com/embed/artist/4DKS4J44z3AzhayMtwrAA2?utm_source=generator&theme=0"
-          width="100%" height="352" frameBorder="0" allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy" title="Magma no Spotify"
-        ></iframe>
+        <div class="spotify-albums">
+          <iframe
+            style="border-radius:12px"
+            src="https://open.spotify.com/embed/album/5SIKiGiRxSLHU8Pq85rmG0?utm_source=generator&theme=0"
+            width="100%" height="460" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy" title="Pra Recomeçar — Magma"
+          ></iframe>
+          <iframe
+            style="border-radius:12px"
+            src="https://open.spotify.com/embed/album/6TZc4r1TBNrGmCtcerkfAJ?utm_source=generator&theme=0"
+            width="100%" height="460" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy" title="Monophobia — Magma"
+          ></iframe>
+          <iframe
+            style="border-radius:12px;grid-column:1/-1"
+            src="https://open.spotify.com/embed/album/6nZh5ZaGwzR5NXPJxemvzn?utm_source=generator&theme=0"
+            width="100%" height="152" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy" title="Single — Magma"
+          ></iframe>
+        </div>
       </div>
     </div>
 
@@ -2320,7 +2347,7 @@
 
     <!-- Cabeçalho cinematográfico — Festival 2006 -->
     <div class="show-cinematic parallax-scene fade-in">
-      <img class="show-cinematic-bg" src="imgs/ShowSapiranga%20005.jpg" alt="" aria-hidden="true" data-depth="0.25" loading="lazy">
+      <img class="show-cinematic-bg" src="imgs/fotos/ShowSapiranga%20005.jpg" alt="" aria-hidden="true" data-depth="0.25" loading="lazy">
       <div class="show-cinematic-overlay"></div>
       <div class="flare flare-orb" data-depth="1.4" style="width:280px;height:280px;top:10%;right:10%;" aria-hidden="true"></div>
       <div class="flare flare-streak" data-depth="1.6" style="width:600px;top:55%;right:-100px;transform:rotate(-12deg);" aria-hidden="true"></div>
@@ -2344,18 +2371,18 @@
 
     <!-- Colagem de fotos do show -->
     <div class="show-collage-grid fade-in">
-      <img src="imgs/ShowSapiranga%20007.jpg" alt="Magma ao vivo" loading="lazy" class="tall">
-      <img src="imgs/ShowSapiranga%20028.jpg" alt="Magma ao vivo" loading="lazy">
-      <img src="imgs/ShowSapiranga%20030.jpg" alt="Magma ao vivo" loading="lazy">
-      <img src="imgs/ShowSapiranga%20037.jpg" alt="Magma ao vivo" loading="lazy">
-      <img src="imgs/ShowSapiranga%20040.jpg" alt="Magma ao vivo" loading="lazy">
+      <img src="imgs/fotos/ShowSapiranga%20007.jpg" alt="Magma ao vivo" loading="lazy" class="tall">
+      <img src="imgs/fotos/ShowSapiranga%20028.jpg" alt="Magma ao vivo" loading="lazy">
+      <img src="imgs/fotos/ShowSapiranga%20030.jpg" alt="Magma ao vivo" loading="lazy">
+      <img src="imgs/fotos/ShowSapiranga%20037.jpg" alt="Magma ao vivo" loading="lazy">
+      <img src="imgs/fotos/ShowSapiranga%20040.jpg" alt="Magma ao vivo" loading="lazy">
     </div>
 
     <!-- Reencontro 2025 -->
     <div class="container" style="padding:0 24px 100px">
       <div class="reunion-grid fade-in">
         <div class="reunion-img-wrap">
-          <img src="imgs/IMG_20251005_154441_246.jpg" alt="Magma — reencontro EAT Kitchen, out. 2025" loading="lazy">
+          <img src="imgs/fotos/IMG_20251005_154441_246.jpg" alt="Magma — reencontro EAT Kitchen, out. 2025" loading="lazy">
         </div>
         <div>
           <span class="reunion-gold-badge">Reencontro · 2025</span>
@@ -2389,238 +2416,238 @@
     <div class="gallery-grid fade-in" id="galleryGrid" role="list" style="position:relative;z-index:1">
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="0" aria-label="Foto 1 da galeria">
-        <img src="imgs/foto01.jpg" alt="Magma — foto 01" loading="lazy">
+        <img src="imgs/fotos/foto01.jpg" alt="Magma — foto 01" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="1" aria-label="Foto 2 da galeria">
-        <img src="imgs/foto02.jpg" alt="Magma — foto 02" loading="lazy">
+        <img src="imgs/fotos/foto02.jpg" alt="Magma — foto 02" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="2" aria-label="Foto 3 da galeria">
-        <img src="imgs/foto03.jpg" alt="Magma — foto 03" loading="lazy">
+        <img src="imgs/fotos/foto03.jpg" alt="Magma — foto 03" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="3" aria-label="Foto 4 da galeria">
-        <img src="imgs/foto03(1).jpg" alt="Magma — foto 03 variante" loading="lazy">
+        <img src="imgs/fotos/foto03(1).jpg" alt="Magma — foto 03 variante" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="4" aria-label="Foto 5 da galeria">
-        <img src="imgs/foto04.jpg" alt="Magma — foto 04" loading="lazy">
+        <img src="imgs/fotos/foto04.jpg" alt="Magma — foto 04" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="5" aria-label="Foto 6 da galeria">
-        <img src="imgs/foto05.jpg" alt="Magma — foto 05" loading="lazy">
+        <img src="imgs/fotos/foto05.jpg" alt="Magma — foto 05" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="6" aria-label="Foto 7 da galeria">
-        <img src="imgs/foto05(1).jpg" alt="Magma — foto 05 variante" loading="lazy">
+        <img src="imgs/fotos/foto05(1).jpg" alt="Magma — foto 05 variante" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="7" aria-label="Foto 8 da galeria">
-        <img src="imgs/foto06.jpg" alt="Magma — foto 06" loading="lazy">
+        <img src="imgs/fotos/foto06.jpg" alt="Magma — foto 06" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="8" aria-label="Foto 9 da galeria">
-        <img src="imgs/foto07.jpg" alt="Magma — foto 07" loading="lazy">
+        <img src="imgs/fotos/foto07.jpg" alt="Magma — foto 07" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="9" aria-label="Foto 10 da galeria">
-        <img src="imgs/foto10.jpg" alt="Magma — foto 10" loading="lazy">
+        <img src="imgs/fotos/foto10.jpg" alt="Magma — foto 10" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="10" aria-label="Foto 11 da galeria">
-        <img src="imgs/foto13.jpg" alt="Magma — foto 13" loading="lazy">
+        <img src="imgs/fotos/foto13.jpg" alt="Magma — foto 13" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="11" aria-label="Foto 12 da galeria">
-        <img src="imgs/foto14.jpg" alt="Magma — foto 14" loading="lazy">
+        <img src="imgs/fotos/foto14.jpg" alt="Magma — foto 14" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="12" aria-label="Foto 13 da galeria">
-        <img src="imgs/foto16.jpg" alt="Magma — foto 16" loading="lazy">
+        <img src="imgs/fotos/foto16.jpg" alt="Magma — foto 16" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="13" aria-label="Foto 14 da galeria">
-        <img src="imgs/foto17.jpg" alt="Magma — foto 17" loading="lazy">
+        <img src="imgs/fotos/foto17.jpg" alt="Magma — foto 17" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="14" aria-label="Foto 15 da galeria">
-        <img src="imgs/Fotos%20-%2001162.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2001162.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="15" aria-label="Foto 16 da galeria">
-        <img src="imgs/Fotos%20-%2001184.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2001184.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="16" aria-label="Foto 17 da galeria">
-        <img src="imgs/Fotos%20-%2001194.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2001194.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="17" aria-label="Foto 18 da galeria">
-        <img src="imgs/Fotos%20-%2001900.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2001900.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="18" aria-label="Foto 19 da galeria">
-        <img src="imgs/Fotos%20-%2001910.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2001910.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="19" aria-label="Foto 20 da galeria">
-        <img src="imgs/Fotos%20-%2001920.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2001920.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="20" aria-label="Foto 21 da galeria">
-        <img src="imgs/Fotos%20-%2001922.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2001922.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="21" aria-label="Foto 22 da galeria">
-        <img src="imgs/Fotos%20-%2001929.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2001929.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="22" aria-label="Foto 23 da galeria">
-        <img src="imgs/Fotos%20-%2002031.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2002031.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="23" aria-label="Foto 24 da galeria">
-        <img src="imgs/Fotos%20-%2002034.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2002034.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="24" aria-label="Foto 25 da galeria">
-        <img src="imgs/Fotos%20-%2002042.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2002042.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="25" aria-label="Foto 26 da galeria">
-        <img src="imgs/Fotos%20-%2002044.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2002044.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="26" aria-label="Foto 27 da galeria">
-        <img src="imgs/Fotos%20-%2002045.jpg" alt="Magma — fotos históricas" loading="lazy">
+        <img src="imgs/fotos/Fotos%20-%2002045.jpg" alt="Magma — fotos históricas" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="27" aria-label="Foto 28 da galeria">
-        <img src="imgs/DSC00174.JPG" alt="Magma — arquivo DSC" loading="lazy">
+        <img src="imgs/fotos/DSC00174.JPG" alt="Magma — arquivo DSC" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="28" aria-label="Foto 29 da galeria">
-        <img src="imgs/DSC00191.JPG" alt="Magma — arquivo DSC" loading="lazy">
+        <img src="imgs/fotos/DSC00191.JPG" alt="Magma — arquivo DSC" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="29" aria-label="Foto 30 da galeria">
-        <img src="imgs/DSC00203.JPG" alt="Magma — arquivo DSC" loading="lazy">
+        <img src="imgs/fotos/DSC00203.JPG" alt="Magma — arquivo DSC" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="30" aria-label="Foto 31 da galeria">
-        <img src="imgs/DSC00223.JPG" alt="Magma — arquivo DSC" loading="lazy">
+        <img src="imgs/fotos/DSC00223.JPG" alt="Magma — arquivo DSC" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="31" aria-label="Foto 32 da galeria">
-        <img src="imgs/DSC02352.JPG" alt="Magma — arquivo DSC" loading="lazy">
+        <img src="imgs/fotos/DSC02352.JPG" alt="Magma — arquivo DSC" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="32" aria-label="Foto 33 da galeria">
-        <img src="imgs/DSC02369.JPG" alt="Magma — arquivo DSC" loading="lazy">
+        <img src="imgs/fotos/DSC02369.JPG" alt="Magma — arquivo DSC" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
       </div>
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="33" aria-label="Foto 34 da galeria">
-        <img src="imgs/20240117_220403.jpg" alt="Magma — 2024" loading="lazy">
+        <img src="imgs/fotos/20240117_220403.jpg" alt="Magma — 2024" loading="lazy">
         <div class="gallery-overlay" aria-hidden="true">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
         </div>
@@ -2646,7 +2673,7 @@
   ============================================================ -->
   <section id="videos" aria-labelledby="videos-title" style="position:relative;overflow:hidden;padding:100px 0">
     <!-- Fundo imersivo -->
-    <img src="imgs/Screenshot_20210620-104758_YouTube.jpg" alt="" aria-hidden="true" loading="lazy"
+    <img src="imgs/fotos/Screenshot_20210620-104758_YouTube.jpg" alt="" aria-hidden="true" loading="lazy"
       style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.12) saturate(.4);" data-depth="0.18">
     <div style="position:absolute;inset:0;background:rgba(8,8,8,.75);" aria-hidden="true"></div>
     <!-- Flares -->
@@ -2669,7 +2696,7 @@
           </div>
           <div class="video-embed">
             <iframe
-              src="https://www.youtube.com/embed/2iPOVC3WC7U?si=I5hSlHk_CEr4hC32"
+              src="https://www.youtube.com/embed/2iPOVC3WC7U"
               title="20 Anos de Magma — Medley Bon Jovi 2021"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -2690,7 +2717,7 @@
           </div>
           <div class="video-embed">
             <iframe
-              src="https://www.youtube.com/embed/LTKSS166e7Y?si=TD0wyHNxrvZ-jDYY"
+              src="https://www.youtube.com/embed/LTKSS166e7Y"
               title="Magma — Show de Reencontro EAT Kitchen 2025"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -2815,14 +2842,7 @@
   ============================================================ -->
   <footer>
     <div class="footer-logo">
-      <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="18" cy="18" r="17" stroke="#E05A1A" stroke-width="1.5"/>
-        <polygon points="6,27 12,9 18,20 24,9 30,27" fill="none" stroke="#E05A1A" stroke-width="2" stroke-linejoin="round"/>
-        <polygon points="10,27 12,9 14,18" fill="#E05A1A" opacity=".25"/>
-        <polygon points="22,18 24,9 26,27" fill="#E05A1A" opacity=".25"/>
-        <polygon points="14,21 18,20 22,21 18,27" fill="#C87A2A" opacity=".6"/>
-      </svg>
-      <span class="footer-title">MAGMA</span>
+      <img src="imgs/visual-id/logo-magma-alpha.png" alt="" aria-hidden="true">
     </div>
 
     <div class="footer-divider"></div>
