@@ -586,18 +586,35 @@
     }
 
     @media (max-width: 680px) {
-      .timeline::before { left: 12px; }
+      /* Linha alinhada ao centro do dot (8px = metade de 16px) */
+      .timeline::before { left: 8px; }
 
       .tl-event,
       .tl-event:nth-child(odd),
       .tl-event:nth-child(even) {
         flex-direction: row;
         align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 36px;
       }
 
-      .tl-side { flex: 1; text-align: left !important; padding: 0 0 0 16px; }
+      /* Dot sempre primeiro, antes do conteúdo */
+      .tl-dot { order: -1; flex-shrink: 0; margin-top: 6px; }
+      .tl-highlight .tl-dot { margin-top: 3px; }
 
-      .tl-dot { margin-top: 5px; }
+      /* Oculta o lado de fotos e o lado vazio */
+      .tl-side:has(.tl-photo-wrap),
+      .tl-side:empty { display: none; }
+
+      /* Conteúdo ocupa toda a largura restante */
+      .tl-side {
+        flex: 1;
+        text-align: left !important;
+        padding: 0;
+      }
+
+      /* Ano levemente menor para melhor fluxo */
+      .tl-year { font-size: 1.6rem; }
     }
 
     /* ============================================================
@@ -1789,9 +1806,6 @@
       .show-collage-grid {
         grid-template-columns: 1fr;
       }
-
-      /* Oculta fotos da timeline em telas muito pequenas para dar espaço ao texto */
-      .tl-photo-wrap { display: none; }
 
       /* show-cinematic menor */
       .show-cinematic { height: 360px; }
