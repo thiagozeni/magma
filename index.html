@@ -339,6 +339,7 @@
     .hero-logo-svg {
       height: 108px;
       width: auto;
+      max-width: 85vw;
       filter: brightness(0) invert(1) drop-shadow(0 0 24px rgba(224,90,26,.6));
       margin-bottom: 48px;
     }
@@ -1770,6 +1771,35 @@
       .show-cinematic-content { max-width: 100%; padding: 24px; }
       .reunion-grid { grid-template-columns: 1fr; }
       .disco-track-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Mobile pequeno (≤ 480px) ── */
+    @media (max-width: 480px) {
+      /* Reduz padding vertical das seções */
+      .section { padding: 56px 0; }
+
+      /* Centraliza capa do disco no mobile */
+      .disco-cover-col { display: flex; justify-content: center; }
+      .disco-cover-col img { width: 160px; height: 160px; }
+
+      /* Colagem de fotos em coluna única em telas muito pequenas */
+      .show-collage-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* Oculta fotos da timeline em telas muito pequenas para dar espaço ao texto */
+      .tl-photo-wrap { display: none; }
+
+      /* Hero logo menor em telas muito pequenas */
+      .hero-logo-svg { height: 80px; }
+
+      /* show-cinematic menor */
+      .show-cinematic { height: 360px; }
+
+      /* Lightbox — botões com melhor área de toque */
+      .lightbox-btn { width: 44px; height: 44px; }
+      .lightbox-btn.prev { left: 4px; }
+      .lightbox-btn.next { right: 4px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
