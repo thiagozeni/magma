@@ -3267,11 +3267,12 @@
     }
 
     function onScroll() {
-      const rect = section.getBoundingClientRect();
+      const photoCol = canvas.parentElement;
+      const rect = photoCol.getBoundingClientRect();
       const wh   = window.innerHeight;
-      // 0 quando seção entra pela base, 1 quando sai pelo topo
-      const raw      = (wh - rect.top) / (rect.height + wh);
-      const progress = Math.min(Math.max(raw * 1.9, 0), 1);
+      // 0 quando foto entra pela base, 1 quando foto está totalmente visível na tela
+      const raw      = (wh - rect.top) / rect.height;
+      const progress = Math.min(Math.max(raw, 0), 1);
       target = Math.min(Math.round(progress * (TOTAL - 1)), TOTAL - 1);
       if (!rafId) rafId = requestAnimationFrame(tick);
     }
