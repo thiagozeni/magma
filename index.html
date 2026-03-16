@@ -3270,8 +3270,9 @@
       const photoCol = canvas.parentElement;
       const rect = photoCol.getBoundingClientRect();
       const wh   = window.innerHeight;
-      // 0 quando foto entra pela base, 1 quando foto está totalmente visível na tela
-      const raw      = (wh - rect.top) / rect.height;
+      const navH = (document.getElementById('nav') || {offsetHeight: 70}).offsetHeight;
+      // 0 quando foto entra pela base, 1 quando topo da foto chega à nav (totalmente visível)
+      const raw      = (wh - rect.top) / (wh - navH);
       const progress = Math.min(Math.max(raw, 0), 1);
       target = Math.min(Math.round(progress * (TOTAL - 1)), TOTAL - 1);
       if (!rafId) rafId = requestAnimationFrame(tick);
