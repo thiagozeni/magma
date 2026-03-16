@@ -679,8 +679,8 @@
     }
 
     .member-avatar {
-      width: 64px;
-      height: 64px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       background: var(--border);
       border: 2px solid var(--accent);
@@ -692,6 +692,20 @@
       font-weight: 900;
       font-size: 1.6rem;
       color: var(--accent);
+      overflow: hidden;
+    }
+
+    .member-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(30%);
+      transition: filter .3s;
+    }
+
+    .member-card:hover .member-avatar img {
+      filter: grayscale(0%);
     }
 
     .member-name {
@@ -1405,14 +1419,13 @@
     /* ── Hero — bg parallax ── */
     .hero-bg-wrap {
       position: absolute;
-      inset: -15%;
-      width: 130%;
-      height: 130%;
-    }
-    .hero-bg-wrap img {
+      inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+    }
+    .hero-bg-wrap canvas {
+      width: 100%;
+      height: 100%;
       display: block;
     }
 
@@ -1428,7 +1441,8 @@
       overflow: hidden;
       clip-path: polygon(0 0, 94% 0, 100% 100%, 0 100%);
     }
-    .historia-photo-col img {
+    .historia-photo-col img,
+    .historia-photo-col canvas {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -1781,7 +1795,6 @@
         <li><a href="#timeline">Timeline</a></li>
         <li><a href="#formacoes">Formações</a></li>
         <li><a href="#discografia">Discografia</a></li>
-        <li><a href="#shows">Shows</a></li>
         <li><a href="#galeria">Galeria</a></li>
         <li><a href="#videos">Vídeos</a></li>
         <li><a href="#links">Links</a></li>
@@ -1800,7 +1813,6 @@
       <a href="#timeline" class="nav-mobile-link">Timeline</a>
       <a href="#formacoes" class="nav-mobile-link">Formações</a>
       <a href="#discografia" class="nav-mobile-link">Discografia</a>
-      <a href="#shows" class="nav-mobile-link">Shows</a>
       <a href="#galeria" class="nav-mobile-link">Galeria</a>
       <a href="#videos" class="nav-mobile-link">Vídeos</a>
       <a href="#links" class="nav-mobile-link">Links</a>
@@ -1813,7 +1825,7 @@
   <section id="inicio" aria-label="Magma — apresentação">
     <!-- BG parallax -->
     <div class="hero-bg-wrap" aria-hidden="true">
-      <img src="imgs/fotos/ShowSapiranga%20005.jpg" alt="" data-depth="0.2" loading="eager">
+      <canvas id="heroBgCanvas"></canvas>
     </div>
     <div class="hero-overlay" aria-hidden="true"></div>
 
@@ -1830,8 +1842,7 @@
       <img src="imgs/visual-id/logo-magma-alpha.png" class="hero-logo-svg" alt="Logo Magma">
 
       <div class="hero-meta">
-        <p class="hero-years">2001 &mdash; 2025</p>
-        <p class="hero-location">Novo Hamburgo &middot; Rio Grande do Sul</p>
+        <p class="hero-location">Um tributo à banda.</p>
       </div>
 
       <a href="#historia" class="hero-cta">
@@ -1862,16 +1873,9 @@
   <section id="historia" aria-labelledby="historia-title">
     <div class="historia-split">
 
-      <!-- Coluna foto -->
-      <div class="historia-photo-col parallax-scene fade-in">
-        <img src="imgs/fotos/IMG_20251005_154441_246%281%29.jpg" alt="Magma — os cinco integrantes reunidos, outubro 2025" data-depth="0.25" loading="lazy">
-        <!-- Flare sobre a foto -->
-        <div class="flare flare-orb-sm" data-depth="1.3"
-             style="width:220px;height:220px;top:10%;right:5%;" aria-hidden="true"></div>
-        <div class="flare flare-streak" data-depth="1.5"
-             style="width:400px;top:35%;right:-60px;transform:rotate(-15deg);" aria-hidden="true"></div>
-        <div class="flare flare-dot" data-depth="1.6"
-             style="top:38%;right:28%;" aria-hidden="true"></div>
+      <!-- Coluna foto / scroll-sequence -->
+      <div class="historia-photo-col fade-in">
+        <canvas id="bandaCanvas"></canvas>
       </div>
 
       <!-- Coluna texto -->
@@ -2054,41 +2058,41 @@
       </div>
 
       <div class="tabs fade-in" role="tablist" aria-label="Formações da banda">
-        <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-1" id="tab-1">1ª Formação</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-1" id="tab-1">1ª Formação</button>
         <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-2" id="tab-2">2ª Formação</button>
-        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-3" id="tab-3">Formação Oficial</button>
+        <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-3" id="tab-3">Formação Oficial</button>
         <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-4" id="tab-4">Monophobia</button>
       </div>
 
       <!-- 1ª Formação -->
-      <div class="tab-panel active fade-in" id="panel-1" role="tabpanel" aria-labelledby="tab-1">
+      <div class="tab-panel fade-in" id="panel-1" role="tabpanel" aria-labelledby="tab-1">
         <div class="formacao-header">
           <h3>1ª Formação — Covers</h3>
           <p>2001 · Início tudo — covers do Silverchair e os primeiros ensaios</p>
         </div>
         <div class="members-grid">
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">R</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Ronald.png" alt="Ronald Ziegler"></div>
             <div class="member-name">Ronald Ziegler</div>
             <div class="member-role">Vocal</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">T</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Thiago.png" alt="Thiago Zeni"></div>
             <div class="member-name">Thiago Zeni</div>
             <div class="member-role">Guitarra</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">N</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Nati.png" alt="Natanael Moreira"></div>
             <div class="member-name">Natanael Moreira</div>
             <div class="member-role">Guitarra</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">M</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Marcos.png" alt="Marcos Araújo"></div>
             <div class="member-name">Marcos Araújo</div>
             <div class="member-role">Baixo</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">F</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Fernando.png" alt="Fernando"></div>
             <div class="member-name">Fernando</div>
             <div class="member-role">Bateria</div>
           </div>
@@ -2103,27 +2107,27 @@
         </div>
         <div class="members-grid">
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">R</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Ronald.png" alt="Ronald Ziegler"></div>
             <div class="member-name">Ronald Ziegler</div>
             <div class="member-role">Vocal</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">T</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Thiago.png" alt="Thiago Zeni"></div>
             <div class="member-name">Thiago Zeni</div>
             <div class="member-role">Guitarra</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">N</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Nati.png" alt="Natanael Moreira"></div>
             <div class="member-name">Natanael Moreira</div>
             <div class="member-role">Guitarra</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">M</div>
-            <div class="member-name">Marcos Araújo</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Vini.png" alt="Vini Moicano"></div>
+            <div class="member-name">Vini Moicano</div>
             <div class="member-role">Bateria</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">M</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Marcio.png" alt="Márcio Abreu"></div>
             <div class="member-name">Márcio Abreu</div>
             <div class="member-role">Baixo</div>
             <div class="member-note">ex-Reação em Cadeia</div>
@@ -2132,41 +2136,37 @@
       </div>
 
       <!-- Formação Oficial -->
-      <div class="tab-panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3">
+      <div class="tab-panel active fade-in" id="panel-3" role="tabpanel" aria-labelledby="tab-3">
         <div class="formacao-header">
           <h3>Formação Oficial — EP &amp; Pra Recomeçar</h3>
           <p>2004–2006 · A formação que gravou os discos e tocou nos grandes festivais</p>
         </div>
-        <figure class="formacao-band-photo">
-          <img src="imgs/fotos/Pra%20Recome%C3%A7ar.jpg" alt="Magma — formação oficial (Ronald, Thiago, Natanael, Márcio, Nico), 2006" loading="lazy">
-          <figcaption>Ronald · Thiago · Natanael · Márcio · Nico — 2006</figcaption>
-        </figure>
         <div class="members-grid">
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">R</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Ronald.png" alt="Ronald Ziegler"></div>
             <div class="member-name">Ronald Ziegler</div>
             <div class="member-role">Vocal</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">T</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Thiago.png" alt="Thiago Zeni"></div>
             <div class="member-name">Thiago Zeni</div>
             <div class="member-role">Guitarra</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">N</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Nati.png" alt="Natanael Moreira"></div>
             <div class="member-name">Natanael Moreira</div>
             <div class="member-role">Guitarra</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">M</div>
-            <div class="member-name">Márcio Abreu</div>
-            <div class="member-role">Baixo</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Nico.png" alt="Nico Ventre"></div>
+            <div class="member-name">Nico Ventre</div>
+            <div class="member-role">Bateria</div>
             <div class="member-note">ex-Reação em Cadeia</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">N</div>
-            <div class="member-name">Nico Ventre</div>
-            <div class="member-role">Bateria</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Marcio.png" alt="Márcio Abreu"></div>
+            <div class="member-name">Márcio Abreu</div>
+            <div class="member-role">Baixo</div>
             <div class="member-note">ex-Reação em Cadeia</div>
           </div>
         </div>
@@ -2183,27 +2183,27 @@
         </div>
         <div class="members-grid">
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">P</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Plinio.png" alt="Plinio Garibotti"></div>
             <div class="member-name">Plinio Garibotti</div>
             <div class="member-role">Vocal</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">T</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Thiago.png" alt="Thiago Zeni"></div>
             <div class="member-name">Thiago Zeni</div>
             <div class="member-role">Guitarra</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">N</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Nati.png" alt="Natanael Moreira"></div>
             <div class="member-name">Natanael Moreira</div>
             <div class="member-role">Guitarra</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">M</div>
-            <div class="member-name">Marcos Araújo</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Nico.png" alt="Nico Ventre"></div>
+            <div class="member-name">Nico Ventre</div>
             <div class="member-role">Bateria</div>
           </div>
           <div class="member-card">
-            <div class="member-avatar" aria-hidden="true">M</div>
+            <div class="member-avatar" aria-hidden="true"><img src="imgs/fotos/faces/Marcio.png" alt="Márcio Abreu"></div>
             <div class="member-name">Márcio Abreu</div>
             <div class="member-role">Baixo</div>
           </div>
@@ -2344,6 +2344,15 @@
        SHOWS
   ============================================================ -->
   <section id="shows" aria-labelledby="shows-title">
+
+    <!-- Colagem de fotos do show -->
+    <div class="show-collage-grid fade-in">
+      <img src="imgs/fotos/ShowSapiranga%20007.jpg" alt="Magma ao vivo" loading="lazy" class="tall">
+      <img src="imgs/fotos/ShowSapiranga%20028.jpg" alt="Magma ao vivo" loading="lazy">
+      <img src="imgs/fotos/ShowSapiranga%20030.jpg" alt="Magma ao vivo" loading="lazy">
+      <img src="imgs/fotos/ShowSapiranga%20037.jpg" alt="Magma ao vivo" loading="lazy">
+      <img src="imgs/fotos/ShowSapiranga%20040.jpg" alt="Magma ao vivo" loading="lazy">
+    </div>
 
     <!-- Reencontro 2025 -->
     <div class="container" style="padding:0 24px 100px">
@@ -3155,6 +3164,143 @@
 
     collectEls();
     requestAnimationFrame(tick);
+  })();
+  </script>
+
+  <script>
+  /* ── Scroll-sequence A Banda canvas ── */
+  (function () {
+    const TOTAL  = 39;   // frames 0054 a 0130, passo 2
+    const OFFSET = 54;
+    const STEP   = 2;
+    const PREFIX = 'video-fx/frames-banda/frame';
+    const canvas = document.getElementById('bandaCanvas');
+    const section = document.getElementById('historia');
+    if (!canvas || !section) return;
+
+    const ctx    = canvas.getContext('2d');
+    const frames = new Array(TOTAL);
+    let loaded   = 0;
+    let current  = 0;
+    let target   = 0;
+    let rafId    = null;
+
+    function resizeCanvas() {
+      const col = canvas.parentElement;
+      canvas.width  = col.offsetWidth  || 720;
+      canvas.height = col.offsetHeight || 1280;
+      render(current);
+    }
+
+    function render(idx) {
+      const img = frames[idx];
+      if (!img || !img.complete || !img.naturalWidth) return;
+      const cw = canvas.width, ch = canvas.height;
+      const iw = img.naturalWidth, ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);
+      const sw = iw * scale, sh = ih * scale;
+      // Alinha ao topo (onde estão os rostos no vídeo retrato)
+      ctx.drawImage(img, (cw - sw) / 2, (ch - sh) / 4, sw, sh);
+    }
+
+    function tick() {
+      rafId = null;
+      if (current !== target) {
+        current = target;
+        render(current);
+      }
+    }
+
+    function onScroll() {
+      const rect = section.getBoundingClientRect();
+      const wh   = window.innerHeight;
+      // 0 quando seção entra pela base, 1 quando sai pelo topo
+      const raw      = (wh - rect.top) / (rect.height + wh);
+      const progress = Math.min(Math.max(raw * 1.9, 0), 1);
+      target = Math.min(Math.round(progress * (TOTAL - 1)), TOTAL - 1);
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    for (let i = 0; i < TOTAL; i++) {
+      const img = new Image();
+      img.src = `${PREFIX}${String(OFFSET + i * STEP).padStart(4, '0')}.jpg`;
+      img.onload = function () {
+        loaded++;
+        if (i === 0) resizeCanvas();
+        if (loaded === TOTAL) onScroll();
+      };
+      frames[i] = img;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+  })();
+  </script>
+
+  <script>
+  /* ── Scroll-sequence hero canvas ── */
+  (function () {
+    const TOTAL   = 48;  // frames de 6s a 8s (24fps × 2s)
+    const OFFSET  = 24;  // pula os primeiros 24 frames (1s a 24fps)
+    const PREFIX  = 'video-fx/frames/frame';
+    const canvas  = document.getElementById('heroBgCanvas');
+    const hero    = document.getElementById('inicio');
+    if (!canvas || !hero) return;
+
+    const ctx     = canvas.getContext('2d');
+    const frames  = new Array(TOTAL);
+    let loaded    = 0;
+    let current   = 0;
+    let target    = 0;
+    let rafId     = null;
+
+    function resizeCanvas() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      render(current);
+    }
+
+    function render(idx) {
+      const img = frames[idx];
+      if (!img || !img.complete || !img.naturalWidth) return;
+      const cw = canvas.width, ch = canvas.height;
+      const iw = img.naturalWidth,  ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);
+      const sw = iw * scale, sh = ih * scale;
+      ctx.drawImage(img, (cw - sw) / 2, (ch - sh) / 2, sw, sh);
+    }
+
+    function tick() {
+      rafId = null;
+      if (current !== target) {
+        current = target;
+        render(current);
+      }
+    }
+
+    function onScroll() {
+      const progress = Math.min(Math.max(window.scrollY / hero.offsetHeight, 0), 1);
+      target = Math.min(Math.round(progress * (TOTAL - 1)), TOTAL - 1);
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    // Pré-carrega todos os frames
+    for (let i = 0; i < TOTAL; i++) {
+      const img = new Image();
+      const num = String(i + OFFSET).padStart(4, '0');
+      img.src = `${PREFIX}${num}.jpg`;
+      img.onload = function () {
+        loaded++;
+        if (i === 0) { resizeCanvas(); }           // exibe primeiro frame assim que carregar
+        if (loaded === TOTAL) onScroll();          // sincroniza com scroll atual
+      };
+      frames[i] = img;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
   })();
   </script>
 
