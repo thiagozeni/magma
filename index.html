@@ -684,12 +684,23 @@
       gap: 20px;
     }
 
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
     .member-card {
       background: var(--bg);
       border: 1px solid var(--border);
       padding: 24px 16px;
       text-align: center;
       transition: border-color .2s, transform .2s;
+      opacity: 0;
+    }
+
+    .members-grid.stagger .member-card {
+      animation: cardIn 0.38s var(--ease) forwards;
+      animation-delay: calc(var(--i, 0) * 80ms);
     }
 
     .member-card:hover {
@@ -1075,6 +1086,11 @@
       overflow: hidden;
       cursor: pointer;
       background: var(--border);
+      opacity: 0;
+    }
+    .gallery-grid.stagger .gallery-item {
+      animation: cardIn 0.4s var(--ease) forwards;
+      animation-delay: calc(var(--i, 0) * 35ms);
     }
 
     .gallery-item img {
@@ -1694,6 +1710,11 @@
       gap: 3px;
       margin-bottom: 64px;
     }
+    @keyframes photoWipe {
+      from { opacity: 0; clip-path: inset(10% 0 0 0); }
+      to   { opacity: 1; clip-path: inset(0% 0 0 0); }
+    }
+
     .show-collage-grid img {
       width: 100%;
       height: 100%;
@@ -1702,6 +1723,11 @@
       filter: grayscale(25%);
       transition: filter .4s, transform .4s;
       display: block;
+      opacity: 0;
+    }
+    .show-collage-grid.stagger img {
+      animation: photoWipe 0.55s var(--ease) forwards;
+      animation-delay: calc(var(--i, 0) * 110ms);
     }
     .show-collage-grid img:hover {
       filter: grayscale(0%);
@@ -2390,7 +2416,7 @@
   <section id="shows" aria-labelledby="shows-title">
 
     <!-- Colagem de fotos do show -->
-    <div class="show-collage-grid fade-in">
+    <div class="show-collage-grid">
       <img src="imgs/fotos/ShowSapiranga%20007.jpg" alt="Magma ao vivo" loading="lazy" class="tall">
       <img src="imgs/fotos/ShowSapiranga%20028.jpg" alt="Magma ao vivo" loading="lazy">
       <img src="imgs/fotos/ShowSapiranga%20030.jpg" alt="Magma ao vivo" loading="lazy">
@@ -2433,7 +2459,7 @@
     <div style="position:absolute;top:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(224,90,26,.15),transparent 70%);filter:blur(50px);pointer-events:none;z-index:0;" aria-hidden="true"></div>
     <div style="position:absolute;bottom:-60px;right:-60px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(200,122,42,.12),transparent 70%);filter:blur(40px);pointer-events:none;z-index:0;" aria-hidden="true"></div>
 
-    <div class="gallery-grid fade-in" id="galleryGrid" role="list" style="position:relative;z-index:1">
+    <div class="gallery-grid" id="galleryGrid" role="list" style="position:relative;z-index:1">
 
       <div class="gallery-item" role="listitem" tabindex="0" data-index="0" aria-label="Foto 1 da galeria">
         <img src="imgs/fotos/foto01.jpg" alt="Magma — foto 01" loading="lazy">
@@ -2931,7 +2957,9 @@
 
         btn.classList.add('active');
         btn.setAttribute('aria-selected', 'true');
-        document.getElementById(target).classList.add('active');
+        var newPanel = document.getElementById(target);
+        newPanel.classList.add('active');
+        staggerCards(newPanel);
       });
 
       // Keyboard navigation for tabs
@@ -3052,11 +3080,71 @@
     });
 
     // -------- STAGGERED DELAYS for sibling fade-ins --------
-    document.querySelectorAll('.members-grid, .disco-grid, .links-grid, .videos-grid').forEach(function(grid) {
+    document.querySelectorAll('.disco-grid, .links-grid, .videos-grid').forEach(function(grid) {
       Array.from(grid.children).forEach(function(child, i) {
         child.style.transitionDelay = (i * 80) + 'ms';
       });
     });
+
+    // -------- MEMBER CARDS STAGGER --------
+    document.querySelectorAll('.tab-panel').forEach(function(panel) {
+      panel.querySelectorAll('.member-card').forEach(function(card, i) {
+        card.style.setProperty('--i', i);
+      });
+    });
+
+    function staggerCards(panel) {
+      var grid = panel.querySelector('.members-grid');
+      if (!grid) return;
+      grid.classList.remove('stagger');
+      void grid.offsetWidth; // force reflow para reiniciar a animação
+      grid.classList.add('stagger');
+    }
+
+    var memberGridObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var panel = entry.target.closest('.tab-panel');
+        if (panel && panel.classList.contains('active')) {
+          staggerCards(panel);
+        }
+        memberGridObs.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.members-grid').forEach(function(grid) {
+      memberGridObs.observe(grid);
+    });
+
+    // -------- SHOW COLLAGE STAGGER --------
+    var collageGrid = document.querySelector('.show-collage-grid');
+    if (collageGrid) {
+      collageGrid.querySelectorAll('img').forEach(function(img, i) {
+        img.style.setProperty('--i', i);
+      });
+      var collageObs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          collageGrid.classList.add('stagger');
+          collageObs.disconnect();
+        }
+      }, { threshold: 0.1 });
+      collageObs.observe(collageGrid);
+    }
+
+    // -------- GALLERY STAGGER --------
+    var galleryGrid = document.getElementById('galleryGrid');
+    if (galleryGrid) {
+      galleryGrid.querySelectorAll('.gallery-item').forEach(function(item, i) {
+        item.style.setProperty('--i', i);
+      });
+      var galleryObs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          galleryGrid.classList.add('stagger');
+          galleryObs.disconnect();
+        }
+      }, { threshold: 0.05 });
+      galleryObs.observe(galleryGrid);
+    }
 
     // -------- NAV ACTIVE STATE on scroll --------
     const sections = document.querySelectorAll('section[id]');
