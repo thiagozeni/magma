@@ -21,3 +21,10 @@ yarn-debug.log*
 *.bak
 *.tmp
 *~
+
+# Security / Credentials
+.env
+.env.local
+.env.*.local
+service_account.json
+*.pem
