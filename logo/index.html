@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Magma — Explorações de Logo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --accent: #E05A1A;
+    --gold: #C87A2A;
+    --text: #F0ECE6;
+    --muted: #888480;
+    --border: #222222;
+    --light-bg: #F0ECE6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', system-ui, sans-serif;
+    padding: 60px 40px;
+    line-height: 1.5;
+  }
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 16px; margin-bottom: 60px; max-width: 720px; }
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+    margin: 60px 0 30px;
+  }
+  .section-note { color: var(--muted); font-size: 14px; margin-bottom: 30px; max-width: 760px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 900px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .card-canvas {
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+  }
+  .card.dark .card-canvas { background: var(--bg); color: var(--accent); }
+  .card.light .card-canvas { background: var(--light-bg); color: var(--bg); }
+  .card.orange .card-canvas { background: var(--accent); color: var(--bg); }
+  .card.gold .card-canvas { background: var(--gold); color: var(--bg); }
+  .card.mono-light .card-canvas { background: var(--light-bg); color: var(--bg); }
+  .card.mono-dark .card-canvas { background: var(--bg); color: var(--text); }
+  .card-label {
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    font-family: 'Barlow Condensed', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .card-label strong { color: var(--text); display: block; font-weight: 700; font-size: 15px; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 3px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .badge.warn { background: #5a1a1a; color: #ffb39c; }
+  svg { display: block; max-width: 100%; height: auto; }
+  .horiz svg { width: 100%; max-width: 480px; }
+  .stack svg { width: 200px; }
+  .symb svg { width: 140px; }
+  .word svg { width: 100%; max-width: 360px; }
+  .mono svg { width: 110px; }
+
+  .approve-section {
+    margin-top: 80px;
+    padding: 40px;
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+  }
+  .approve-section h2 { margin-top: 0; border: none; padding: 0; }
+  .approve-section p { color: var(--text); font-size: 15px; margin-top: 12px; }
+  .approve-section ul { margin-top: 16px; padding-left: 24px; color: var(--muted); }
+  .approve-section li { margin-bottom: 8px; }
+  .approve-section li strong { color: var(--text); }
+  code { background: rgba(224,90,26,0.12); color: var(--accent); padding: 2px 6px; border-radius: 3px; font-family: ui-monospace, monospace; font-size: 13px; }
+  /* M-flame cutout: takes the canvas background color so it appears as a "hole" in the disc */
+  .cutout { fill: var(--canvas-bg, #080808); }
+</style>
+</head>
+<body>
+
+<h1>Magma <span>—</span> Explorações de logo</h1>
+<p class="subtitle">Polimento do logo original e geração de variações para aprovação. Paleta segue a identidade do site memorial: <strong>preto #080808 + laranja #E05A1A + dourado #C87A2A + marfim #F0ECE6</strong>.</p>
+
+<!-- =============== Reusable SVG defs =============== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Wordmark (M A G M A) -->
+    <symbol id="word" viewBox="0 0 970 105"><g transform="translate(0 0)"><path fill="currentColor" fill-rule="evenodd" d="M 14,0 L 164,0 A 14 14 0 0 1 178,14 L 178,105 L 0,105 L 0,14 A 14 14 0 0 1 14,0 Z M 21,25 A 4 4 0 0 1 25,21 L 74.5,21 A 4 4 0 0 1 78.5,25 L 78.5,105 L 21,105 Z M 99.5,25 A 4 4 0 0 1 103.5,21 L 153.0,21 A 4 4 0 0 1 157.0,25 L 157.0,105 L 99.5,105 Z"/></g>
+  <g transform="translate(198 0)"><path fill="currentColor" fill-rule="evenodd" d="M 14,0 L 164,0 A 14 14 0 0 1 178,14 L 178,105 L 0,105 L 0,14 A 14 14 0 0 1 14,0 Z M 21,21 L 157,21 L 157,42 L 21,42 Z M 21,67 A 4 4 0 0 1 25,63 L 153,63 A 4 4 0 0 1 157,67 L 157,105 L 21,105 Z"/></g>
+  <g transform="translate(396 0)"><path fill="currentColor" fill-rule="evenodd" d="M 14,0 L 164,0 A 14 14 0 0 1 178,14 L 178,17 A 4 4 0 0 1 174,21 L 25,21 A 4 4 0 0 1 21,25 L 21,38 A 4 4 0 0 1 25,42 L 174,42 A 4 4 0 0 1 178,46 L 178,91 A 14 14 0 0 1 164,105 L 14,105 A 14 14 0 0 1 0,91 L 0,14 A 14 14 0 0 1 14,0 Z M 21,42 L 157,42 L 157,84 L 21,84 Z"/></g>
+  <g transform="translate(594 0)"><path fill="currentColor" fill-rule="evenodd" d="M 14,0 L 164,0 A 14 14 0 0 1 178,14 L 178,105 L 0,105 L 0,14 A 14 14 0 0 1 14,0 Z M 21,25 A 4 4 0 0 1 25,21 L 74.5,21 A 4 4 0 0 1 78.5,25 L 78.5,105 L 21,105 Z M 99.5,25 A 4 4 0 0 1 103.5,21 L 153.0,21 A 4 4 0 0 1 157.0,25 L 157.0,105 L 99.5,105 Z"/></g>
+  <g transform="translate(792 0)"><path fill="currentColor" fill-rule="evenodd" d="M 14,0 L 164,0 A 14 14 0 0 1 178,14 L 178,105 L 0,105 L 0,14 A 14 14 0 0 1 14,0 Z M 21,21 L 157,21 L 157,42 L 21,42 Z M 21,67 A 4 4 0 0 1 25,63 L 153,63 A 4 4 0 0 1 157,67 L 157,105 L 21,105 Z"/></g></symbol>
+    <!-- M-flame raw path -->
+    <symbol id="mflame" viewBox="0 0 220 215">
+      <g fill="currentColor" transform="translate(-4.816305 213.113695) scale(0.1 -0.1)">
+        <path d="M1368 1803 c-58 -127 -151 -348 -209 -496 -35 -91 -58 -137 -67 -135 -7 2 -51 95 -96 208 -87 213 -174 419 -199 467 -15 28 -15 28 -41 -31 -14 -32 -26 -60 -26 -61 0 -2 -41 -97 -91 -212 -286 -651 -303 -924 -76 -1196 49 -59 55 -55 28 18 -50 134 -23 259 131 603 58 128 65 132 97 60 162 -370 186 -474 148 -654 -16 -75 -10 -74 62 12 67 79 65 79 130 -6 62 -82 65 -84 46 -29 -49 138 6 407 129 633 56 102 72 118 85 85 5 -13 26 -62 46 -109 116 -262 168 -496 130 -587 -23 -54 -12 -51 33 9 214 286 172 601 -191 1421 -34 78 -34 78 -69 0z"/>
+      </g>
+    </symbol>
+    <!-- Symbol (M-flame inside circle) -->
+    <symbol id="symbol" viewBox="0 0 512 512">
+      <circle cx="256" cy="256" r="246" fill="none" stroke="currentColor" stroke-width="9"/>
+      <circle cx="256" cy="256" r="220" fill="currentColor"/>
+      <g transform="translate(61 58) scale(1.882 1.882)">
+        <g transform="translate(-4.816305 213.113695) scale(0.1 -0.1)">
+          <path d="M1368 1803 c-58 -127 -151 -348 -209 -496 -35 -91 -58 -137 -67 -135 -7 2 -51 95 -96 208 -87 213 -174 419 -199 467 -15 28 -15 28 -41 -31 -14 -32 -26 -60 -26 -61 0 -2 -41 -97 -91 -212 -286 -651 -303 -924 -76 -1196 49 -59 55 -55 28 18 -50 134 -23 259 131 603 58 128 65 132 97 60 162 -370 186 -474 148 -654 -16 -75 -10 -74 62 12 67 79 65 79 130 -6 62 -82 65 -84 46 -29 -49 138 6 407 129 633 56 102 72 118 85 85 5 -13 26 -62 46 -109 116 -262 168 -496 130 -587 -23 -54 -12 -51 33 9 214 286 172 601 -191 1421 -34 78 -34 78 -69 0z" class="cutout"/>
+        </g>
+      </g>
+    </symbol>
+    <!-- Horizontal lockup -->
+    <symbol id="horizontal" viewBox="0 0 1280 260">
+      <g transform="translate(0 78)" fill="currentColor">
+        <use href="#word" width="970" height="105"/>
+      </g>
+      <g transform="translate(1010 5)">
+        <circle cx="125" cy="125" r="120" fill="none" stroke="currentColor" stroke-width="4.4"/>
+        <circle cx="125" cy="125" r="107" fill="currentColor"/>
+        <g transform="translate(29.8 28.3) scale(0.919 0.919)">
+          <g transform="translate(-4.816305 213.113695) scale(0.1 -0.1)">
+            <path class="cutout" d="M1368 1803 c-58 -127 -151 -348 -209 -496 -35 -91 -58 -137 -67 -135 -7 2 -51 95 -96 208 -87 213 -174 419 -199 467 -15 28 -15 28 -41 -31 -14 -32 -26 -60 -26 -61 0 -2 -41 -97 -91 -212 -286 -651 -303 -924 -76 -1196 49 -59 55 -55 28 18 -50 134 -23 259 131 603 58 128 65 132 97 60 162 -370 186 -474 148 -654 -16 -75 -10 -74 62 12 67 79 65 79 130 -6 62 -82 65 -84 46 -29 -49 138 6 407 129 633 56 102 72 118 85 85 5 -13 26 -62 46 -109 116 -262 168 -496 130 -587 -23 -54 -12 -51 33 9 214 286 172 601 -191 1421 -34 78 -34 78 -69 0z"/>
+          </g>
+        </g>
+      </g>
+    </symbol>
+    <!-- Stacked lockup -->
+    <symbol id="stacked" viewBox="0 0 520 340">
+      <g transform="translate(140 0)">
+        <circle cx="120" cy="120" r="116" fill="none" stroke="currentColor" stroke-width="4.4"/>
+        <circle cx="120" cy="120" r="103" fill="currentColor"/>
+        <g transform="translate(28 27.3) scale(0.884 0.884)">
+          <g transform="translate(-4.816305 213.113695) scale(0.1 -0.1)">
+            <path class="cutout" d="M1368 1803 c-58 -127 -151 -348 -209 -496 -35 -91 -58 -137 -67 -135 -7 2 -51 95 -96 208 -87 213 -174 419 -199 467 -15 28 -15 28 -41 -31 -14 -32 -26 -60 -26 -61 0 -2 -41 -97 -91 -212 -286 -651 -303 -924 -76 -1196 49 -59 55 -55 28 18 -50 134 -23 259 131 603 58 128 65 132 97 60 162 -370 186 -474 148 -654 -16 -75 -10 -74 62 12 67 79 65 79 130 -6 62 -82 65 -84 46 -29 -49 138 6 407 129 633 56 102 72 118 85 85 5 -13 26 -62 46 -109 116 -262 168 -496 130 -587 -23 -54 -12 -51 33 9 214 286 172 601 -191 1421 -34 78 -34 78 -69 0z"/>
+          </g>
+        </g>
+      </g>
+      <g transform="translate(15 280)"><use href="#word" width="490" height="53.1"/></g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ SECTION 1: Original × Polido ============ -->
+<h2>1 · Original × Polido</h2>
+<p class="section-note">O logo original tinha pequenas falhas no anel externo (cortes em 3h e 9h, espaçamento irregular entre o anel e o disco). A versão polida reconstrói o círculo limpo, preservando 100% o formato do <strong>M-chama</strong> (duas chamas formando o M).</p>
+
+<div class="grid-2">
+  <div class="card dark">
+    <div class="card-canvas">
+      <img src="../imgs/visual-id/logo-magma-alpha.png" alt="Logo original" style="max-width: 100%; max-height: 140px;">
+    </div>
+    <div class="card-label">
+      <strong>Original <span class="badge warn">com falhas</span></strong>
+      Anel externo com cortes em 3h e 9h, espaçamento irregular.
+    </div>
+  </div>
+  <div class="card dark" style="--canvas-bg: #080808">
+    <div class="card-canvas horiz">
+      <svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Polido <span class="badge">v1</span></strong>
+      Anel limpo, vetor matemático. M-chama preservada exatamente.
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 2: Lockups ============ -->
+<h2>2 · Lockups (composições)</h2>
+<p class="section-note">Três composições principais para diferentes contextos de aplicação.</p>
+
+<div class="grid-3">
+  <div class="card dark" style="--canvas-bg: #080808">
+    <div class="card-canvas horiz">
+      <svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Horizontal — primário</strong>
+      Wordmark + símbolo. Uso padrão em superfícies amplas (header de site, banner, capa).
+    </div>
+  </div>
+  <div class="card dark" style="--canvas-bg: #080808">
+    <div class="card-canvas stack">
+      <svg viewBox="0 0 520 340"><use href="#stacked"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Empilhado — secundário</strong>
+      Símbolo sobre wordmark. Uso em formatos quadrados (avatar, post, capa de release).
+    </div>
+  </div>
+  <div class="card dark" style="--canvas-bg: #080808">
+    <div class="card-canvas symb">
+      <svg viewBox="0 0 512 512"><use href="#symbol"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Símbolo isolado</strong>
+      Apenas o emblema (M-chama no círculo). Favicon, ícone de app, watermark.
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 3: Apenas wordmark / monograma ============ -->
+<h2>3 · Wordmark e monograma</h2>
+<p class="section-note">Versões reduzidas para contextos onde o lockup completo não cabe.</p>
+
+<div class="grid-2">
+  <div class="card dark" style="--canvas-bg: #080808">
+    <div class="card-canvas word">
+      <svg viewBox="0 0 968 113"><use href="#word"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Wordmark</strong>
+      Texto MAGMA em letterforms estêncil-geométricas. Uso em assinaturas tipográficas, cabeçalhos de email, faixas.
+    </div>
+  </div>
+  <div class="card dark" style="--canvas-bg: #080808">
+    <div class="card-canvas mono">
+      <svg viewBox="0 0 220 215"><use href="#mflame"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Monograma M-chama</strong>
+      A chama dupla isolada, sem círculo. Watermark em vídeo, padrão de fundo, ícone minimalista.
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 4: Aplicações de cor ============ -->
+<h2>4 · Aplicações de cor</h2>
+<p class="section-note">Três paletas oficiais + duas versões mono. Sempre garantir contraste mínimo de 4.5:1.</p>
+
+<div class="grid-3">
+  <div class="card dark" style="--canvas-bg: #080808">
+    <div class="card-canvas symb">
+      <svg viewBox="0 0 512 512"><use href="#symbol"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Laranja sobre preto</strong>
+      Aplicação <em>primária</em>. Site memorial, materiais oficiais, capas de release.
+    </div>
+  </div>
+  <div class="card light" style="--canvas-bg: #F0ECE6">
+    <div class="card-canvas symb">
+      <svg viewBox="0 0 512 512"><use href="#symbol"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Preto sobre marfim</strong>
+      Aplicação <em>secundária</em>. Press kit, papelaria, fundos claros.
+    </div>
+  </div>
+  <div class="card orange" style="--canvas-bg: #E05A1A">
+    <div class="card-canvas symb">
+      <svg viewBox="0 0 512 512"><use href="#symbol"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Preto sobre laranja</strong>
+      Aplicação <em>de destaque</em>. Stickers, etiquetas, calls-to-action.
+    </div>
+  </div>
+  <div class="card mono-dark" style="--canvas-bg: #080808">
+    <div class="card-canvas symb">
+      <svg viewBox="0 0 512 512"><use href="#symbol"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Mono — marfim sobre preto</strong>
+      Sobre fotos, vídeo, fundos escuros indefinidos. Sempre alta opacidade.
+    </div>
+  </div>
+  <div class="card mono-light" style="--canvas-bg: #F0ECE6">
+    <div class="card-canvas symb">
+      <svg viewBox="0 0 512 512"><use href="#symbol"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Mono — preto</strong>
+      Em fundos claros, impressões single-color, fax/email texto-puro.
+    </div>
+  </div>
+  <div class="card gold" style="--canvas-bg: #C87A2A">
+    <div class="card-canvas symb">
+      <svg viewBox="0 0 512 512"><use href="#symbol"/></svg>
+    </div>
+    <div class="card-label">
+      <strong>Preto sobre dourado</strong>
+      Edições especiais, detalhes premium. Uso restrito.
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 5: Decisão ============ -->
+<div class="approve-section">
+  <h2>Próximos passos · aprovação</h2>
+  <p>Avaliar:</p>
+  <ul>
+    <li><strong>Polimento (seção 1)</strong> — comparar Original × v1. O M-chama ficou idêntico? O anel limpo está correto?</li>
+    <li><strong>Lockups (seção 2)</strong> — confirmar <em>horizontal</em> como primário e <em>empilhado</em> como secundário. Espaçamento OK?</li>
+    <li><strong>Reduzidas (seção 3)</strong> — manter o monograma M-chama (sem círculo) ou descartar?</li>
+    <li><strong>Cor (seção 4)</strong> — confirmar a hierarquia: laranja-sobre-preto = primária, preto-sobre-marfim = secundária, demais = situacionais.</li>
+  </ul>
+  <p style="margin-top: 24px;">Aprovado, sigo para o <strong>manual de marca</strong> (<code>brand/index.html</code>) com a estrutura padrão (capa → conceito → construção → área de exclusão → paleta → tipografia → aplicações → do's & don'ts) e export PDF.</p>
+</div>
+
+</body>
+</html>
