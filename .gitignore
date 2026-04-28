@@ -28,3 +28,8 @@ yarn-debug.log*
 .env.*.local
 service_account.json
 *.pem
+
+# Videos / large media (não publicados — pesam GB)
+videos/
+_divulga/
+# video-fx/ É tracado: frames das animações scroll-scrub + MP4s do site (~14MB)
