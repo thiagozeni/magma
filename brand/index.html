@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>magma — Manual de Marca</title>
+
+<link rel="icon" type="image/svg+xml" href="/logo/svg/symbol.svg">
+
+<meta name="description" content="Manual de marca da banda Magma — sistema de identidade visual com símbolo M-chama, wordmark, paleta laranja/preto e regras de uso.">
+<meta name="author" content="Banda Magma">
+<link rel="canonical" href="https://bandamagma.com/brand/">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bandamagma.com/brand/">
+<meta property="og:title" content="magma — Manual de Marca">
+<meta property="og:description" content="Sistema de identidade visual da banda Magma — símbolo, wordmark, paleta e aplicações. v1.0.">
+<meta property="og:locale" content="pt_BR">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800;900&family=Barlow:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #080808; --surface: #111111; --panel: #1a1a1a;
+    --accent: #E05A1A; --gold: #C87A2A; --accent-dim: rgba(224,90,26,0.12);
+    --text: #F0ECE6; --muted: #888480; --faint: #3a3733;
+    --border: #222222; --border2: rgba(255,255,255,0.06);
+    --red: #FF2D2D;
+    --font-head: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.04;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 200px 200px;
+  }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 3rem; }
+  @media (max-width: 700px) { .wrap { padding: 0 1.2rem; } }
+
+  /* ================ COVER ================ */
+  .cover { min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 3rem 0 4rem; border-bottom: 1px solid var(--border2); }
+  .cover-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap; font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; }
+  .cover-top b { color: var(--accent); }
+  .cover-mark { flex: 1; display: flex; align-items: center; justify-content: center; margin: 4rem 0; }
+  .cover-mark svg { width: clamp(280px, 60vw, 720px); height: auto; color: var(--text); }
+  .cover-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; border-top: 1px solid var(--border2); padding-top: 2rem; }
+  @media (max-width: 700px) { .cover-bottom { grid-template-columns: 1fr; } }
+  .cover-title { font-family: var(--font-head); font-weight: 900; text-transform: uppercase; font-size: clamp(2rem, 4vw, 3.6rem); letter-spacing: -0.02em; line-height: 1.05; }
+  .cover-title em { font-style: normal; color: var(--accent); }
+  .cover-lead { color: var(--muted); font-size: 1rem; line-height: 1.75; max-width: 520px; }
+  .cover-lead b { color: var(--text); font-weight: 500; }
+
+  /* ================ SECTION SCAFFOLD ================ */
+  section { padding: 6rem 0; border-bottom: 1px solid var(--border2); }
+  .section-num { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; color: var(--accent); margin-bottom: 1.5rem; text-transform: uppercase; display: block; }
+  .section-title { font-family: var(--font-head); font-weight: 900; text-transform: uppercase; font-size: clamp(1.8rem, 3.2vw, 2.8rem); letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 1rem; }
+  .section-title em { font-style: normal; color: var(--accent); }
+  .section-lead { color: var(--muted); max-width: 720px; font-size: 0.95rem; line-height: 1.75; margin-bottom: 3rem; }
+  .section-lead b { color: var(--text); font-weight: 500; }
+
+  /* ================ 02 · VARIANT GRID ================ */
+  .vgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border2); padding: 1px; }
+  @media (max-width: 900px) { .vgrid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .vgrid { grid-template-columns: 1fr; } }
+  .vtile { background: var(--bg); display: flex; flex-direction: column; min-height: 360px; }
+  .vstage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2.4rem; min-height: 240px; position: relative; }
+  .vstage.invert { background: #F5F2EC; --canvas-bg: #F5F2EC; }
+  .vstage.deep { background: var(--surface); }
+  .vstage.warm { background: var(--accent); --canvas-bg: var(--accent); }
+  .vstage svg { width: 100%; max-width: 280px; height: auto; color: var(--text); }
+  .vstage.invert svg { color: var(--bg); }
+  .vstage.warm svg { color: var(--bg); }
+  .vmeta { padding: 1.2rem 1.4rem 1.4rem; border-top: 1px solid var(--border2); }
+  .vname { font-family: var(--font-head); font-weight: 800; text-transform: uppercase; font-size: 1rem; letter-spacing: 0.02em; }
+  .vname-tag { font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent); letter-spacing: 0.18em; margin-bottom: 0.4rem; text-transform: uppercase; }
+  .vuse { color: var(--muted); font-size: 0.78rem; line-height: 1.55; margin-top: 0.5rem; }
+  .vuse b { color: var(--text); font-weight: 500; }
+
+  /* ================ 03 · CONSTRUCTION ================ */
+  .construction { background: var(--surface); padding: 4rem 3rem; position: relative; overflow: hidden; border: 1px solid var(--border2); }
+  .construction::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(to right, rgba(224,90,26,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(224,90,26,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .construction-grid { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 700px) { .construction-grid { grid-template-columns: 1fr; } }
+  .construction-mark { display: flex; justify-content: center; align-items: center; }
+  .construction-mark svg { width: 100%; max-width: 320px; height: auto; color: var(--text); --canvas-bg: var(--surface); }
+  .construction-labels { display: flex; flex-direction: column; gap: 1.5rem; }
+  .clabel { border-left: 2px solid var(--accent); padding-left: 1rem; }
+  .clabel-key { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; }
+  .clabel-val { font-family: var(--font-head); font-weight: 700; text-transform: uppercase; font-size: 1.1rem; margin-top: 0.3rem; letter-spacing: 0.01em; }
+  .clabel-desc { color: var(--muted); font-size: 0.8rem; line-height: 1.55; margin-top: 0.4rem; }
+
+  /* ================ 04 · CLEAR SPACE + MIN SIZE ================ */
+  .clearance { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: stretch; }
+  @media (max-width: 900px) { .clearance { grid-template-columns: 1fr; } }
+  .clearance-box { background: var(--surface); border: 1px solid var(--border2); padding: 3rem; display: flex; align-items: center; justify-content: center; position: relative; min-height: 320px; --canvas-bg: var(--surface); }
+  .clearance-mark { position: relative; padding: 1.4rem; display: flex; align-items: center; justify-content: center; }
+  .clearance-mark svg { width: 200px; height: auto; color: var(--text); }
+  .clearance-mark::after { content: ''; position: absolute; inset: 0; border: 1px dashed rgba(224,90,26,0.5); pointer-events: none; }
+  .clearance-mark::before { content: 'X'; position: absolute; left: -1.4rem; top: 50%; transform: translateY(-50%); font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.15em; }
+
+  .sizes { background: var(--surface); border: 1px solid var(--border2); padding: 2rem; display: flex; flex-direction: column; justify-content: center; gap: 1.6rem; }
+  .size-row { display: flex; align-items: center; gap: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--border2); }
+  .size-row:last-child { border-bottom: 0; padding-bottom: 0; }
+  .size-mark { flex-shrink: 0; display: flex; align-items: center; justify-content: center; --canvas-bg: var(--surface); }
+  .size-mark svg { color: var(--text); height: auto; }
+  .size-info { flex: 1; }
+  .size-px { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.15em; }
+  .size-label { font-size: 0.85rem; color: var(--text); margin-top: 0.2rem; }
+  .size-note { color: var(--faint); font-size: 0.72rem; margin-top: 0.15rem; }
+
+  /* ================ 05 · COLOR ================ */
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border2); padding: 1px; }
+  @media (max-width: 900px) { .swatches { grid-template-columns: repeat(2, 1fr); } }
+  .swatch { padding: 2.5rem 1.4rem; min-height: 280px; display: flex; flex-direction: column; justify-content: space-between; }
+  .sw-name { font-family: var(--font-head); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; }
+  .sw-hex { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; letter-spacing: -0.01em; margin-top: 1rem; }
+  .sw-meta { font-family: var(--font-mono); font-size: 0.7rem; line-height: 1.6; opacity: 0.75; }
+  .sw-use { font-size: 0.78rem; line-height: 1.55; margin-top: 0.5rem; opacity: 0.9; }
+  .sw-accent { background: var(--accent); color: var(--bg); }
+  .sw-gold { background: var(--gold); color: var(--bg); }
+  .sw-bg { background: var(--bg); color: var(--text); border-right: 1px solid var(--border2); }
+  .sw-text { background: var(--text); color: var(--bg); }
+
+  /* ================ 06 · TYPOGRAPHY ================ */
+  .typo { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  .typo-row { background: var(--surface); border: 1px solid var(--border2); padding: 2.5rem 2rem; display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: center; }
+  @media (max-width: 700px) { .typo-row { grid-template-columns: 1fr; } }
+  .typo-key { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; line-height: 1.6; }
+  .typo-key b { color: var(--text); display: block; margin-top: 0.3rem; font-family: var(--font-head); font-weight: 800; font-size: 1rem; letter-spacing: 0.01em; text-transform: uppercase; }
+  .typo-spec { color: var(--muted); font-size: 0.72rem; margin-top: 0.5rem; font-family: var(--font-mono); }
+  .typo-sample-1 { font-family: var(--font-head); font-weight: 900; text-transform: uppercase; font-size: clamp(2rem, 5vw, 4.2rem); letter-spacing: -0.02em; line-height: 0.95; color: var(--text); }
+  .typo-sample-1 em { font-style: normal; color: var(--accent); }
+  .typo-sample-2 { font-family: var(--font-body); font-weight: 400; font-size: 1rem; line-height: 1.7; color: var(--text); max-width: 540px; }
+  .typo-sample-2 b { color: var(--accent); font-weight: 700; }
+  .typo-sample-mono { font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.6; color: var(--text); max-width: 540px; }
+
+  /* ================ 07 · BACKGROUNDS ================ */
+  .bgmatrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border2); padding: 1px; }
+  @media (max-width: 900px) { .bgmatrix { grid-template-columns: 1fr; } }
+  .bgcell { padding: 3rem 2rem; min-height: 220px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 1.5rem; }
+  .bg-status { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.25rem 0.6rem; border: 1px solid currentColor; }
+  .bg-status.ok { color: var(--accent); }
+  .bg-status.warn { color: var(--gold); }
+  .bg-status.bad { color: var(--red); }
+  .bg-mark-sm { width: 100%; max-width: 180px; }
+  .bg-mark-sm svg { width: 100%; height: auto; color: currentColor; }
+  .bg-note { font-size: 0.78rem; line-height: 1.55; opacity: 0.9; }
+  .bg-1 { background: var(--bg); color: var(--text); --canvas-bg: var(--bg); }
+  .bg-2 { background: #F5F2EC; color: var(--bg); --canvas-bg: #F5F2EC; }
+  .bg-3 { background: linear-gradient(135deg, #2a2a2a 0%, #555 100%); color: var(--text); --canvas-bg: #3d3d3d; }
+  .bg-4 { background: var(--accent); color: var(--bg); --canvas-bg: var(--accent); }
+  .bg-5 { background: #00B894; color: var(--bg); --canvas-bg: #00B894; }
+  .bg-6 {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='200' height='200' fill='%23222'/><circle cx='80' cy='100' r='60' fill='%23555'/><circle cx='130' cy='80' r='30' fill='%23999'/></svg>") center/cover;
+    color: var(--text); --canvas-bg: #444;
+  }
+
+  /* ================ 08 · DONT'S ================ */
+  .donts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border2); padding: 1px; }
+  @media (max-width: 900px) { .donts { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .donts { grid-template-columns: 1fr; } }
+  .dont { background: var(--bg); padding: 2.5rem 1.6rem 1.6rem; min-height: 260px; display: flex; flex-direction: column; gap: 1rem; position: relative; --canvas-bg: var(--bg); }
+  .dont-flag { position: absolute; top: 0.7rem; right: 0.7rem; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.18em; color: var(--red); border: 1px solid var(--red); padding: 0.15rem 0.45rem; text-transform: uppercase; }
+  .dont-stage { flex: 1; display: flex; align-items: center; justify-content: center; opacity: 0.9; min-height: 120px; }
+  .dont-stage svg { width: 100%; max-width: 180px; height: auto; color: var(--text); }
+  .dont-text { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
+  .dont-text b { color: var(--text); font-weight: 500; }
+  .d1 svg { transform: scaleY(0.55); }
+  .d2 svg { color: #ff44aa; }
+  .d3 svg { transform: rotate(-12deg); }
+  .d4 .dont-stage { font-family: var(--font-body); font-weight: 900; font-size: 2.6rem; letter-spacing: 0.02em; color: var(--text); }
+  .d5 svg { transform: scaleX(1.4); }
+  .d6 svg { filter: drop-shadow(0 0 12px rgba(224,90,26,0.8)); opacity: 0.6; }
+
+  /* ================ 09 · APPLICATIONS ================ */
+  .apps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border2); padding: 1px; }
+  @media (max-width: 900px) { .apps { grid-template-columns: 1fr; } }
+  .app { background: var(--bg); display: flex; flex-direction: column; min-height: 320px; }
+  .app-stage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; min-height: 240px; background: var(--surface); border-bottom: 1px solid var(--border2); --canvas-bg: var(--surface); }
+  .app-meta { padding: 1.2rem 1.4rem 1.4rem; }
+  .app-name { font-family: var(--font-head); font-weight: 800; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 0.02em; }
+  .app-name-tag { font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .app-note { font-size: 0.78rem; color: var(--muted); line-height: 1.55; margin-top: 0.4rem; }
+  .app-note b { color: var(--text); font-weight: 500; }
+
+  .fav-row { display: flex; gap: 1.2rem; align-items: flex-end; }
+  .fav { background: var(--bg); display: flex; align-items: center; justify-content: center; border: 1px solid var(--border2); --canvas-bg: var(--bg); }
+  .fav svg { color: var(--text); }
+  .fav-16 { width: 16px; height: 16px; } .fav-16 svg { width: 14px; }
+  .fav-32 { width: 32px; height: 32px; } .fav-32 svg { width: 28px; }
+  .fav-64 { width: 64px; height: 64px; } .fav-64 svg { width: 56px; }
+
+  .avatar { width: 200px; height: 200px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 60px rgba(224,90,26,0.25); --canvas-bg: var(--accent); }
+  .avatar svg { width: 130px; color: var(--bg); }
+
+  .og { width: 100%; max-width: 480px; aspect-ratio: 1200/630; background: var(--bg); display: flex; flex-direction: column; justify-content: space-between; padding: 1.6rem 2rem; border: 1px solid var(--border2); position: relative; --canvas-bg: var(--bg); }
+  .og-mark { width: 200px; }
+  .og-mark svg { color: var(--text); width: 100%; }
+  .og-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+  .og-tag { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; }
+  .og-name { font-family: var(--font-head); font-weight: 700; font-size: 1.1rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .merch {
+    width: 100%; max-width: 380px; aspect-ratio: 1; background: var(--bg);
+    display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; --canvas-bg: var(--bg);
+  }
+  .merch::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, rgba(224,90,26,0.12), transparent 60%); }
+  .merch svg { width: 60%; color: var(--text); position: relative; }
+
+  .watermark { width: 100%; max-width: 360px; aspect-ratio: 16/9; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%); position: relative; display: flex; align-items: flex-end; justify-content: flex-end; padding: 1rem; border: 1px solid var(--border2); --canvas-bg: #1f1f1f; }
+  .watermark::before { content: ''; position: absolute; inset: 0; opacity: 0.15; background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.4), transparent 50%); }
+  .wm-mark { width: 80px; position: relative; opacity: 0.75; }
+  .wm-mark svg { width: 100%; color: var(--text); }
+
+  /* ================ FOOTER ================ */
+  footer { padding: 4rem 0 5rem; text-align: left; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
+  @media (max-width: 700px) { .foot-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .foot-key { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; }
+  .foot-text { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
+  .foot-text b { color: var(--text); font-weight: 500; }
+  .foot-list { list-style: none; }
+  .foot-list li { color: var(--muted); font-size: 0.78rem; padding: 0.3rem 0; border-bottom: 1px solid var(--border2); font-family: var(--font-mono); letter-spacing: 0.05em; }
+  .foot-list li:last-child { border-bottom: 0; }
+
+  .nav { position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 0.4rem; background: rgba(8,8,8,0.85); padding: 0.7rem 0.5rem; border: 1px solid var(--border2); backdrop-filter: blur(8px); }
+  @media (max-width: 900px) { .nav { display: none; } }
+  .nav a { width: 26px; height: 18px; font-family: var(--font-mono); font-size: 0.55rem; color: var(--faint); text-decoration: none; display: flex; align-items: center; justify-content: center; letter-spacing: 0.05em; transition: color 0.2s; }
+  .nav a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ============ INLINE SVG SYMBOLS ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- WORDMARK -->
+    <symbol id="word" viewBox="0 0 970 105">
+      <g transform="translate(0 0)"><path fill="currentColor" fill-rule="evenodd" d="M 17,0 L 161,0 A 17 17 0 0 1 178,17 L 178,105 L 0,105 L 0,17 A 17 17 0 0 1 17,0 Z M 21,25 A 4 4 0 0 1 25,21 L 74.5,21 A 4 4 0 0 1 78.5,25 L 78.5,105 L 21,105 Z M 99.5,25 A 4 4 0 0 1 103.5,21 L 153.0,21 A 4 4 0 0 1 157.0,25 L 157.0,105 L 99.5,105 Z"/></g>
+      <g transform="translate(198 0)"><path fill="currentColor" fill-rule="evenodd" d="M 17,0 L 161,0 A 17 17 0 0 1 178,17 L 178,105 L 0,105 L 0,17 A 17 17 0 0 1 17,0 Z M 21,21 L 157,21 L 157,42 L 21,42 Z M 21,67 A 4 4 0 0 1 25,63 L 153,63 A 4 4 0 0 1 157,67 L 157,105 L 21,105 Z"/></g>
+      <g transform="translate(396 0)"><path fill="currentColor" fill-rule="evenodd" d="M 17,0 L 157,0 A 21 21 0 0 1 178,21 L 21,21 L 21,55 L 178,55 L 178,88 A 17 17 0 0 1 161,105 L 17,105 A 17 17 0 0 1 0,88 L 0,17 A 17 17 0 0 1 17,0 Z M 21,55 L 157,55 L 157,84 L 21,84 Z"/></g>
+      <g transform="translate(594 0)"><path fill="currentColor" fill-rule="evenodd" d="M 17,0 L 161,0 A 17 17 0 0 1 178,17 L 178,105 L 0,105 L 0,17 A 17 17 0 0 1 17,0 Z M 21,25 A 4 4 0 0 1 25,21 L 74.5,21 A 4 4 0 0 1 78.5,25 L 78.5,105 L 21,105 Z M 99.5,25 A 4 4 0 0 1 103.5,21 L 153.0,21 A 4 4 0 0 1 157.0,25 L 157.0,105 L 99.5,105 Z"/></g>
+      <g transform="translate(792 0)"><path fill="currentColor" fill-rule="evenodd" d="M 17,0 L 161,0 A 17 17 0 0 1 178,17 L 178,105 L 0,105 L 0,17 A 17 17 0 0 1 17,0 Z M 21,21 L 157,21 L 157,42 L 21,42 Z M 21,67 A 4 4 0 0 1 25,63 L 153,63 A 4 4 0 0 1 157,67 L 157,105 L 21,105 Z"/></g>
+    </symbol>
+
+    <!-- M-FLAME (cutout shape) -->
+    <symbol id="mflame" viewBox="0 0 220 215">
+      <g fill="currentColor" transform="translate(-4.816305 213.113695) scale(0.1 -0.1)">
+        <path d="M1368 1803 c-58 -127 -151 -348 -209 -496 -35 -91 -58 -137 -67 -135 -7 2 -51 95 -96 208 -87 213 -174 419 -199 467 -15 28 -15 28 -41 -31 -14 -32 -26 -60 -26 -61 0 -2 -41 -97 -91 -212 -286 -651 -303 -924 -76 -1196 49 -59 55 -55 28 18 -50 134 -23 259 131 603 58 128 65 132 97 60 162 -370 186 -474 148 -654 -16 -75 -10 -74 62 12 67 79 65 79 130 -6 62 -82 65 -84 46 -29 -49 138 6 407 129 633 56 102 72 118 85 85 5 -13 26 -62 46 -109 116 -262 168 -496 130 -587 -23 -54 -12 -51 33 9 214 286 172 601 -191 1421 -34 78 -34 78 -69 0z"/>
+      </g>
+    </symbol>
+
+    <!-- SYMBOL (circle + flame cutout) -->
+    <symbol id="symbol" viewBox="0 0 512 512">
+      <circle cx="256" cy="256" r="246" fill="none" stroke="currentColor" stroke-width="9"/>
+      <circle cx="256" cy="256" r="220" fill="currentColor"/>
+      <g transform="translate(61 58) scale(1.882 1.882)">
+        <g transform="translate(-4.816305 213.113695) scale(0.1 -0.1)">
+          <path style="fill: var(--canvas-bg, #080808);" d="M1368 1803 c-58 -127 -151 -348 -209 -496 -35 -91 -58 -137 -67 -135 -7 2 -51 95 -96 208 -87 213 -174 419 -199 467 -15 28 -15 28 -41 -31 -14 -32 -26 -60 -26 -61 0 -2 -41 -97 -91 -212 -286 -651 -303 -924 -76 -1196 49 -59 55 -55 28 18 -50 134 -23 259 131 603 58 128 65 132 97 60 162 -370 186 -474 148 -654 -16 -75 -10 -74 62 12 67 79 65 79 130 -6 62 -82 65 -84 46 -29 -49 138 6 407 129 633 56 102 72 118 85 85 5 -13 26 -62 46 -109 116 -262 168 -496 130 -587 -23 -54 -12 -51 33 9 214 286 172 601 -191 1421 -34 78 -34 78 -69 0z"/>
+        </g>
+      </g>
+    </symbol>
+
+    <!-- HORIZONTAL LOCKUP -->
+    <symbol id="horizontal" viewBox="0 0 1280 260">
+      <g transform="translate(0 78)"><use href="#word" width="970" height="105"/></g>
+      <g transform="translate(1010 5)"><use href="#symbol" width="250" height="250"/></g>
+    </symbol>
+
+    <!-- STACKED LOCKUP -->
+    <symbol id="stacked" viewBox="0 0 520 340">
+      <g transform="translate(140 0)"><use href="#symbol" width="240" height="240"/></g>
+      <g transform="translate(15 280)"><use href="#word" width="490" height="53.1"/></g>
+    </symbol>
+  </defs>
+</svg>
+
+<nav class="nav">
+  <a href="#s01">01</a>
+  <a href="#s02">02</a>
+  <a href="#s03">03</a>
+  <a href="#s04">04</a>
+  <a href="#s05">05</a>
+  <a href="#s06">06</a>
+  <a href="#s07">07</a>
+  <a href="#s08">08</a>
+  <a href="#s09">09</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ COVER ============ -->
+<section class="cover" id="s00">
+  <div class="cover-top">
+    <div><a href="/" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:2px;">← bandamagma.com</a> &nbsp;·&nbsp; <b>Brand Manual</b> · v1.0 · 2026</div>
+    <div><a href="/logo/" style="color:var(--accent);text-decoration:none;border:1px solid var(--accent);padding:0.4rem 0.9rem;letter-spacing:0.18em;font-family:var(--font-mono);font-size:0.7rem;">↓ assets do logo</a></div>
+  </div>
+  <div class="cover-mark">
+    <svg viewBox="0 0 1280 260" role="img" aria-label="magma logo horizontal"><use href="#horizontal"/></svg>
+  </div>
+  <div class="cover-bottom">
+    <h1 class="cover-title">Manual de marca <em>magma</em> — sistema de símbolo, wordmark e aplicações.</h1>
+    <p class="cover-lead">
+      Este documento define o uso correto da marca <b>magma</b> nos canais digitais, impressos e
+      audiovisuais da banda. Símbolo M-chama, wordmark mathematical-stencil, paleta laranja-magma
+      sobre preto e cinco lockups oficiais. <b>Tudo aqui é regra, não sugestão.</b>
+    </p>
+  </div>
+</section>
+
+<!-- ============ 01 · IDENTIDADE ============ -->
+<section id="s01">
+  <span class="section-num">01 — identidade</span>
+  <h2 class="section-title">O que é <em>magma</em></h2>
+  <p class="section-lead">
+    <b>magma</b> é uma banda. A marca traduz isso em dois elementos rígidos: um símbolo (chama-M
+    inscrita em círculo, calor contido) e um wordmark stencil (letras matematicamente construídas,
+    com cantos arredondados uniformes). O sistema é monocromático sobre laranja-magma — sem
+    gradientes, sem decoração, sem versão "alegre". <b>Calor sem afetação.</b>
+  </p>
+
+  <div class="construction">
+    <div class="construction-grid">
+      <div class="construction-mark">
+        <svg viewBox="0 0 512 512" role="img" aria-label="símbolo magma — anatomia"><use href="#symbol"/></svg>
+      </div>
+      <div class="construction-labels">
+        <div class="clabel">
+          <div class="clabel-key">Símbolo</div>
+          <div class="clabel-val">M-chama em círculo</div>
+          <div class="clabel-desc">Duas chamas que se unem formando a letra M. Inscrita em disco sólido com anel externo de respiro.</div>
+        </div>
+        <div class="clabel">
+          <div class="clabel-key">Wordmark</div>
+          <div class="clabel-val">Stencil mathematical</div>
+          <div class="clabel-desc">Cinco letras (m-a-g-m-a) construídas a partir de primitivas — retângulos arredondados R=17 + bolsos com r=4.</div>
+        </div>
+        <div class="clabel">
+          <div class="clabel-key">Cor</div>
+          <div class="clabel-val">Laranja-magma sólido</div>
+          <div class="clabel-desc">#E05A1A é a cor da marca. Branco e creme só como inversão sobre laranja. Nunca degradê.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 · VARIANTES ============ -->
+<section id="s02">
+  <span class="section-num">02 — sistema de variantes</span>
+  <h2 class="section-title">Cinco lockups oficiais. <em>Mesma marca.</em></h2>
+  <p class="section-lead">
+    A marca tem cinco expressões formais — escolha pela proporção do espaço, não pela "vontade".
+    <b>Horizontal é o master</b>: usa quando há largura. <b>Empilhado</b> em formatos quadrados.
+    <b>Símbolo</b> e <b>monograma</b> em ícones e selos. <b>Wordmark</b> só quando o símbolo já apareceu
+    no contexto.
+  </p>
+
+  <div class="vgrid">
+    <!-- 1. Horizontal -->
+    <div class="vtile">
+      <div class="vstage"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="vmeta">
+        <div class="vname-tag">01 · master</div>
+        <div class="vname">Horizontal lockup</div>
+        <p class="vuse">Uso primário. Header do site, capa de release, materiais de divulgação <b>quando há largura</b>. Word + símbolo lado a lado.</p>
+      </div>
+    </div>
+
+    <!-- 2. Stacked -->
+    <div class="vtile">
+      <div class="vstage"><svg viewBox="0 0 520 340" style="max-width:200px"><use href="#stacked"/></svg></div>
+      <div class="vmeta">
+        <div class="vname-tag">02 · square</div>
+        <div class="vname">Stacked lockup</div>
+        <p class="vuse"><b>Formato quadrado</b>. Capa de single, tile do Spotify, post de feed, cartaz, camiseta. Símbolo no topo, wordmark embaixo.</p>
+      </div>
+    </div>
+
+    <!-- 3. Symbol -->
+    <div class="vtile">
+      <div class="vstage"><svg viewBox="0 0 512 512" style="max-width:180px"><use href="#symbol"/></svg></div>
+      <div class="vmeta">
+        <div class="vname-tag">03 · icon</div>
+        <div class="vname">Símbolo</div>
+        <p class="vuse"><b>Avatar de redes, favicon, ícone de app, selo de patrocínio</b>. Quando o nome "magma" já está claro pelo contexto — não precisa repetir o wordmark.</p>
+      </div>
+    </div>
+
+    <!-- 4. Wordmark -->
+    <div class="vtile">
+      <div class="vstage"><svg viewBox="0 0 970 105"><use href="#word"/></svg></div>
+      <div class="vmeta">
+        <div class="vname-tag">04 · type</div>
+        <div class="vname">Wordmark</div>
+        <p class="vuse">Apenas o nome. <b>Headers de seção, créditos, vinhetas</b>. Quando o símbolo já apareceu antes na peça e ficaria redundante.</p>
+      </div>
+    </div>
+
+    <!-- 5. Monogram -->
+    <div class="vtile">
+      <div class="vstage"><svg viewBox="0 0 220 215" style="max-width:120px"><use href="#mflame"/></svg></div>
+      <div class="vmeta">
+        <div class="vname-tag">05 · monogram</div>
+        <div class="vname">Monograma M-chama</div>
+        <p class="vuse">Marca d'água, padrão repetido, picareta de detalhe. <b>Sem o círculo</b>. Use só quando faz sentido um elemento gráfico solto.</p>
+      </div>
+    </div>
+
+    <!-- 6. Inverso -->
+    <div class="vtile">
+      <div class="vstage warm"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="vmeta">
+        <div class="vname-tag">06 · reverse</div>
+        <div class="vname">Inverso sobre laranja</div>
+        <p class="vuse">Selo. <b>Sticker, capa de boletim, fundo de palco</b>. Inverte a equação cromática — laranja como fundo, marca em preto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 · CONSTRUÇÃO ============ -->
+<section id="s03">
+  <span class="section-num">03 — construção</span>
+  <h2 class="section-title">Como o logo é <em>construído.</em></h2>
+  <p class="section-lead">
+    Wordmark e símbolo são <b>vetores SVG fixos</b>. Não recrie no Photoshop, não vetorize manualmente,
+    não rederive da fonte. Use os arquivos master em <code style="color:var(--accent);font-family:var(--font-mono);">/logo/svg/</code>.
+    Wordmark é stencil construído com primitivas — não é tipografia. Símbolo é o M-chama vetorizado a
+    partir do desenho original (2001) inscrito em círculo R=246 com anel externo de 9px.
+  </p>
+  <pre style="background: var(--surface); padding: 2rem; border: 1px solid var(--border2); font-family: var(--font-mono); font-size: 0.78rem; color: var(--text); line-height: 1.7; overflow-x: auto;"><span style="color:var(--muted);">// Arquivos master oficiais</span>
+/logo/svg/horizontal.svg   <span style="color:var(--muted);">→ lockup primário (1280×260)</span>
+/logo/svg/stacked.svg      <span style="color:var(--muted);">→ versão quadrada (520×340)</span>
+/logo/svg/symbol.svg       <span style="color:var(--muted);">→ M-chama em círculo (512×512)</span>
+/logo/svg/wordmark.svg     <span style="color:var(--muted);">→ apenas o nome (970×105)</span>
+/logo/svg/monogram-m.svg   <span style="color:var(--muted);">→ chama solta (220×215)</span>
+
+<span style="color:var(--muted);">// Para inverter cor: SVGs usam currentColor</span>
+&lt;svg style=<span style="color:var(--accent);">"color: #E05A1A"</span>&gt;
+  &lt;use href=<span style="color:var(--accent);">"/logo/svg/symbol.svg#symbol"</span>/&gt;
+&lt;/svg&gt;</pre>
+</section>
+
+<!-- ============ 04 · CLEAR SPACE + MIN SIZE ============ -->
+<section id="s04">
+  <span class="section-num">04 — espaço de respiro & tamanho mínimo</span>
+  <h2 class="section-title">A marca <em>respira.</em></h2>
+  <p class="section-lead">
+    Em volta do logo existe uma área livre de <b>X = altura de uma letra do wordmark</b> em todas as
+    direções. Nenhum elemento gráfico, texto ou imagem entra nessa zona. Em layouts apertados, prefira
+    <b>diminuir o logo a invadir o respiro</b>.
+  </p>
+
+  <div class="clearance">
+    <div class="clearance-box">
+      <div class="clearance-mark">
+        <svg viewBox="0 0 970 105"><use href="#word"/></svg>
+      </div>
+    </div>
+    <div class="sizes">
+      <div class="size-row">
+        <div class="size-mark"><svg viewBox="0 0 512 512" style="width:24px;height:24px"><use href="#symbol"/></svg></div>
+        <div class="size-info">
+          <div class="size-px">24 PX · MÍNIMO</div>
+          <div class="size-label">Símbolo apenas. Anel externo pode sumir abaixo desse tamanho</div>
+          <div class="size-note">Use só Símbolo — wordmark não é legível</div>
+        </div>
+      </div>
+      <div class="size-row">
+        <div class="size-mark"><svg viewBox="0 0 970 105" style="width:120px;height:13px"><use href="#word"/></svg></div>
+        <div class="size-info">
+          <div class="size-px">120 PX · WORDMARK MIN</div>
+          <div class="size-label">Wordmark legível em digital. Footer, créditos pequenos</div>
+          <div class="size-note">Bolsos das letras podem fechar abaixo desse tamanho</div>
+        </div>
+      </div>
+      <div class="size-row">
+        <div class="size-mark"><svg viewBox="0 0 1280 260" style="width:200px;height:auto"><use href="#horizontal"/></svg></div>
+        <div class="size-info">
+          <div class="size-px">200 PX+ · STANDARD</div>
+          <div class="size-label">Header de site, capa de single, banner</div>
+          <div class="size-note">Todas as variantes liberadas</div>
+        </div>
+      </div>
+      <div class="size-row">
+        <div class="size-mark"><svg viewBox="0 0 1280 260" style="width:280px;height:auto"><use href="#horizontal"/></svg></div>
+        <div class="size-info">
+          <div class="size-px">400 PX+ · EXPRESSIVE</div>
+          <div class="size-label">Hero do site, capa, projeção em palco, OG image</div>
+          <div class="size-note">Lockup horizontal recomendado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 · PALETA ============ -->
+<section id="s05">
+  <span class="section-num">05 — paleta cromática</span>
+  <h2 class="section-title">Laranja-magma + dois neutros. <em>Vermelho só pra emergência.</em></h2>
+  <p class="section-lead">
+    Quatro cores no sistema. <b>Laranja-magma é a marca</b> — sem ele, não há identidade. Preto profundo
+    é o habitat. Creme é o texto. Dourado magma é variação tonal pra hover, accent secundário e quando o
+    laranja primário precisa de contraponto. <b>Sem azul, sem verde, sem rosa.</b>
+  </p>
+
+  <div class="swatches">
+    <div class="swatch sw-accent">
+      <div>
+        <div class="sw-name">Magma Orange</div>
+        <div class="sw-hex">#E05A1A</div>
+      </div>
+      <div>
+        <div class="sw-meta">RGB 224 90 26<br>HSL 18° 79% 49%<br>Pantone 165 C</div>
+        <div class="sw-use">Cor da marca. Logo, CTAs, links, accent primário, fundo de selo.</div>
+      </div>
+    </div>
+    <div class="swatch sw-gold">
+      <div>
+        <div class="sw-name">Magma Gold</div>
+        <div class="sw-hex">#C87A2A</div>
+      </div>
+      <div>
+        <div class="sw-meta">RGB 200 122 42<br>HSL 30° 65% 47%<br>Pantone 158 C</div>
+        <div class="sw-use">Hover de links, accent secundário, gradação tonal sobre fotos.</div>
+      </div>
+    </div>
+    <div class="swatch sw-bg">
+      <div>
+        <div class="sw-name">Deep Black</div>
+        <div class="sw-hex">#080808</div>
+      </div>
+      <div>
+        <div class="sw-meta">RGB 8 8 8<br>HSL 0° 0% 3%<br>Pantone Black 6 C</div>
+        <div class="sw-use">Background principal. Habitat natural da marca. Texto sobre creme.</div>
+      </div>
+    </div>
+    <div class="swatch sw-text">
+      <div>
+        <div class="sw-name">Bone Cream</div>
+        <div class="sw-hex">#F0ECE6</div>
+      </div>
+      <div>
+        <div class="sw-meta">RGB 240 236 230<br>HSL 36° 24% 92%<br>Pantone Warm Gray 1 C</div>
+        <div class="sw-use">Texto principal sobre preto. Fundo invertido. Não é branco puro — tem calor.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 · TIPOGRAFIA ============ -->
+<section id="s06">
+  <span class="section-num">06 — tipografia</span>
+  <h2 class="section-title">Duas famílias. <em>Nenhuma decorativa.</em></h2>
+  <p class="section-lead">
+    <b>Barlow Condensed</b> é a tipografia de display — títulos, vinhetas, créditos. Condensada, com
+    peso, transmite a postura da banda. <b>Barlow</b> é o corpo de texto — versão proporcional da mesma
+    família, garantindo coerência. <b>JetBrains Mono</b> é exceção técnica para tags, timestamps e
+    código. Nunca substituir por Inter, Helvetica ou serif decorativa.
+  </p>
+
+  <div class="typo">
+    <div class="typo-row">
+      <div class="typo-key">Display<b>Barlow Condensed</b><div class="typo-spec">700 / 800 / 900</div></div>
+      <div class="typo-sample-1">Calor.<br>Pressão.<br><em>Magma.</em></div>
+    </div>
+    <div class="typo-row">
+      <div class="typo-key">Body<b>Barlow</b><div class="typo-spec">300 / 400 / 500 / 700</div></div>
+      <div class="typo-sample-2">A banda magma existe desde 2001. Vinte e quatro anos tocando rock pesado, com a mesma formação fundadora e <b>nenhum compromisso com modismo</b>. O texto fala em Barlow porque é honesto — sem ornamento, sem condescendência.</div>
+    </div>
+    <div class="typo-row">
+      <div class="typo-key">Technical<b>JetBrains Mono</b><div class="typo-spec">400 / 700</div></div>
+      <div class="typo-sample-mono">2001–2026 · 24 ANOS<br>SETLIST · 2026.04.27<br>FORMAÇÃO · 4 INTEGRANTES</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 · BACKGROUNDS ============ -->
+<section id="s07">
+  <span class="section-num">07 — superfícies & contraste</span>
+  <h2 class="section-title">Onde a marca <em>respira ou sufoca.</em></h2>
+  <p class="section-lead">
+    A marca foi construída para fundo escuro — é onde o laranja vibra mais. Em creme funciona com
+    inversão. Sobre laranja sólido, usa preto. <b>Fundos saturados que competem com o laranja
+    (vermelho, rosa, verde escuro) são proibidos.</b> Sobre fotos, sempre overlay 40% preto.
+  </p>
+
+  <div class="bgmatrix">
+    <div class="bgcell bg-1">
+      <div class="bg-status ok">✓ ideal</div>
+      <div class="bg-mark-sm" style="color:var(--accent)"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="bg-note">Preto profundo — habitat natural. Marca em laranja vibra. Todas as variantes liberadas.</div>
+    </div>
+    <div class="bgcell bg-2">
+      <div class="bg-status ok">✓ ok</div>
+      <div class="bg-mark-sm" style="color:var(--accent)"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="bg-note">Creme — marca em laranja mantém contraste. Versão "diurna" oficial.</div>
+    </div>
+    <div class="bgcell bg-3">
+      <div class="bg-status warn">! cuidado</div>
+      <div class="bg-mark-sm" style="color:var(--text)"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="bg-note">Cinza médio — só marca em creme com peso visual mínimo. Laranja briga com o cinza.</div>
+    </div>
+    <div class="bgcell bg-4">
+      <div class="bg-status warn">! exceção</div>
+      <div class="bg-mark-sm" style="color:var(--bg)"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="bg-note">Laranja puro — marca vira preta. Só pra selo/badge ou aplicação inversa.</div>
+    </div>
+    <div class="bgcell bg-5">
+      <div class="bg-status bad">✕ proibido</div>
+      <div class="bg-mark-sm" style="color:var(--accent)"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="bg-note">Verde, vermelho saturado, rosa — competem com o laranja. Nunca.</div>
+    </div>
+    <div class="bgcell bg-6">
+      <div class="bg-status warn">! depende</div>
+      <div class="bg-mark-sm" style="color:var(--text)"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="bg-note">Foto — só marca em creme + overlay 40% preto. Garante legibilidade independente do banco de imagens.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 · DON'TS ============ -->
+<section id="s08">
+  <span class="section-num">08 — proibições</span>
+  <h2 class="section-title">Seis maneiras de <em>quebrar a marca.</em></h2>
+  <p class="section-lead">
+    Estas são erradas. Sem exceção. Se a regra atrapalha o layout, o problema é o layout. <b>Pra cada
+    "vontade" de variar, existe uma variante oficial</b> (seção 02) que cobre o caso.
+  </p>
+
+  <div class="donts">
+    <div class="dont d1">
+      <div class="dont-flag">não</div>
+      <div class="dont-stage" style="color:var(--accent)"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="dont-text"><b>Não distorça.</b> Nunca alterar proporção horizontal/vertical. Só escala uniforme — se precisa caber em quadrado, use a versão empilhada.</div>
+    </div>
+    <div class="dont d2">
+      <div class="dont-flag">não</div>
+      <div class="dont-stage"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="dont-text"><b>Não troque a cor.</b> Laranja-magma é fixo. Recolorir anula o sistema. Pra contextos sem laranja, use creme ou preto sólido.</div>
+    </div>
+    <div class="dont d3">
+      <div class="dont-flag">não</div>
+      <div class="dont-stage" style="color:var(--accent)"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="dont-text"><b>Não rotacione.</b> A marca é sempre horizontal (no lockup horizontal). Sem inclinação, sem orientação vertical, sem "criatividade" angular.</div>
+    </div>
+    <div class="dont d4">
+      <div class="dont-flag">não</div>
+      <div class="dont-stage">magma</div>
+      <div class="dont-text"><b>Não troque a fonte.</b> O wordmark não é tipografia — é vetor stencil construído. Digitar "magma" em qualquer fonte (Arial, Helvetica, etc) anula a marca.</div>
+    </div>
+    <div class="dont d5">
+      <div class="dont-flag">não</div>
+      <div class="dont-stage" style="color:var(--accent)"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="dont-text"><b>Não estique horizontalmente.</b> Manter exatamente a proporção do master 1280×260. Esticar engorda as letras e quebra a construção stencil.</div>
+    </div>
+    <div class="dont d6">
+      <div class="dont-flag">não</div>
+      <div class="dont-stage" style="color:var(--accent)"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+      <div class="dont-text"><b>Não aplique glow ou efeitos.</b> A marca é sólida. Glow, sombra interna, blur, gradiente — tudo proibido. Calor é da cor, não de filtro.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 · APLICAÇÕES ============ -->
+<section id="s09">
+  <span class="section-num">09 — aplicações reais</span>
+  <h2 class="section-title">A marca <em>no mundo.</em></h2>
+  <p class="section-lead">
+    Como o sistema se comporta nos canais reais. Cada aplicação usa a variante mais adequada e respeita
+    clear space, contraste e tamanho mínimo. <b>Esta seção é referência, não exaustão</b> — novas
+    aplicações devem seguir as regras das seções 02 a 08.
+  </p>
+
+  <div class="apps">
+    <!-- Favicon -->
+    <div class="app">
+      <div class="app-stage">
+        <div class="fav-row">
+          <div style="text-align:center"><div class="fav fav-16"><svg viewBox="0 0 220 215"><use href="#mflame"/></svg></div><div style="font-family:var(--font-mono);font-size:0.55rem;color:var(--faint);margin-top:0.4rem;">16</div></div>
+          <div style="text-align:center"><div class="fav fav-32"><svg viewBox="0 0 512 512"><use href="#symbol"/></svg></div><div style="font-family:var(--font-mono);font-size:0.55rem;color:var(--faint);margin-top:0.4rem;">32</div></div>
+          <div style="text-align:center"><div class="fav fav-64"><svg viewBox="0 0 512 512"><use href="#symbol"/></svg></div><div style="font-family:var(--font-mono);font-size:0.55rem;color:var(--faint);margin-top:0.4rem;">64</div></div>
+        </div>
+      </div>
+      <div class="app-meta">
+        <div class="app-name-tag">favicon · 16/32/64</div>
+        <div class="app-name">Browser tab</div>
+        <p class="app-note">A 16px usa o <b>monograma M-chama</b> (anel externo some). De 32px+ usa o <b>símbolo completo</b> com círculo.</p>
+      </div>
+    </div>
+
+    <!-- Avatar -->
+    <div class="app">
+      <div class="app-stage">
+        <div class="avatar"><svg viewBox="0 0 220 215"><use href="#mflame"/></svg></div>
+      </div>
+      <div class="app-meta">
+        <div class="app-name-tag">avatar · 400×400</div>
+        <div class="app-name">Social profile</div>
+        <p class="app-note">Variante <b>Inverso</b> em círculo. Instagram, Facebook, YouTube, Spotify. Laranja de fundo + chama preta = máxima visibilidade no feed.</p>
+      </div>
+    </div>
+
+    <!-- OG Image -->
+    <div class="app">
+      <div class="app-stage">
+        <div class="og">
+          <div class="og-mark"><svg viewBox="0 0 1280 260"><use href="#horizontal"/></svg></div>
+          <div class="og-bottom">
+            <div class="og-tag">rock · 24 anos · porto alegre</div>
+            <div class="og-name">bandamagma.com</div>
+          </div>
+        </div>
+      </div>
+      <div class="app-meta">
+        <div class="app-name-tag">og image · 1200×630</div>
+        <div class="app-name">Social share</div>
+        <p class="app-note">Variante <b>Horizontal</b> em laranja sobre preto. Layout limpo — tudo respira. Funciona em WhatsApp, Twitter, LinkedIn, iMessage.</p>
+      </div>
+    </div>
+
+    <!-- Watermark -->
+    <div class="app">
+      <div class="app-stage">
+        <div class="watermark"><div class="wm-mark"><svg viewBox="0 0 220 215"><use href="#mflame"/></svg></div></div>
+      </div>
+      <div class="app-meta">
+        <div class="app-name-tag">watermark · vídeo / foto</div>
+        <div class="app-name">Watermark</div>
+        <p class="app-note">Variante <b>Monograma com 75% opacity</b>, em creme. Canto inferior direito. Sempre menor que o conteúdo principal — é assinatura, não logo de canal.</p>
+      </div>
+    </div>
+
+    <!-- Merch -->
+    <div class="app">
+      <div class="app-stage" style="background:#0e0e0e">
+        <div class="merch"><svg viewBox="0 0 520 340"><use href="#stacked"/></svg></div>
+      </div>
+      <div class="app-meta">
+        <div class="app-name-tag">merch · camiseta / poster</div>
+        <div class="app-name">Stamp impresso</div>
+        <p class="app-note">Variante <b>Empilhada</b> em laranja sobre preto. Centralizada no peito ou no centro do cartaz. Usa a estampa em uma única cor — sem gradação, sem efeito.</p>
+      </div>
+    </div>
+
+    <!-- Print -->
+    <div class="app">
+      <div class="app-stage" style="background: #F5F2EC;">
+        <div style="background: var(--bg); padding: 1.6rem 2rem; border: 1px solid #333; min-width: 240px;">
+          <div style="color: var(--accent); width: 100px;"><svg viewBox="0 0 970 105"><use href="#word"/></svg></div>
+          <div style="height: 2px; background: var(--accent); width: 24px; margin: 0.7rem 0;"></div>
+          <div style="font-family: var(--font-head); font-weight: 700; font-size: 0.75rem; color: var(--text); letter-spacing: 0.05em; text-transform: uppercase;">Banda Magma</div>
+          <div style="font-family: var(--font-body); font-size: 0.65rem; color: var(--muted); margin-top: 0.15rem;">contato@bandamagma.com</div>
+          <div style="margin-top: 0.9rem; font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent); letter-spacing: 0.12em;">bandamagma.com</div>
+        </div>
+      </div>
+      <div class="app-meta">
+        <div class="app-name-tag">cartão · 90×50mm</div>
+        <div class="app-name">Business card</div>
+        <p class="app-note">Variante <b>Wordmark</b> em laranja sobre cartão preto. Régua laranja curta como divisor. Verso pode ser puramente laranja liso, virando objeto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-key">Manual de marca · magma</div>
+      <p class="foot-text">
+        Versão 1.0 · 2026-04-27. Manual aplicável a toda comunicação visual da banda <b>magma</b>
+        (bandamagma.com) — site, redes, materiais impressos, audiovisual, palco e merch.
+        Para usos não previstos aqui, manter as regras das seções 02 a 08 como referência.
+      </p>
+    </div>
+    <div>
+      <div class="foot-key">Variantes</div>
+      <ul class="foot-list">
+        <li>01 · Horizontal</li>
+        <li>02 · Stacked</li>
+        <li>03 · Símbolo</li>
+        <li>04 · Wordmark</li>
+        <li>05 · Monograma</li>
+        <li>06 · Inverso</li>
+      </ul>
+    </div>
+    <div>
+      <div class="foot-key">Assets</div>
+      <ul class="foot-list">
+        <li>/logo/svg/horizontal.svg</li>
+        <li>/logo/svg/stacked.svg</li>
+        <li>/logo/svg/symbol.svg</li>
+        <li>/logo/svg/wordmark.svg</li>
+        <li>/logo/svg/monogram-m.svg</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+</body>
+</html>
