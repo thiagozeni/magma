@@ -30,6 +30,7 @@
     document.documentElement.classList.add('js-anim');
     window.__animeFallback = setTimeout(function () {
       document.documentElement.classList.remove('js-anim');
+      var w = document.getElementById('hero-disc-wipe'); if (w) w.setAttribute('r', 240);
     }, 2500);
   </script>
   <style>
@@ -135,7 +136,6 @@
     /* ── anime.js — estados iniciais (escondidos até animar; fallback .js-anim revela) ── */
     .js-anim .hero-logo-svg .wm-letter,
     .js-anim #hero-ring,
-    .js-anim #hero-disc,
     .js-anim .hero-location,
     .js-anim .hero-cta,
     .js-anim #inicio .flare,
@@ -151,7 +151,6 @@
     @media (prefers-reduced-motion: reduce) {
       .js-anim .hero-logo-svg .wm-letter,
       .js-anim #hero-ring,
-      .js-anim #hero-disc,
       .js-anim .hero-location,
       .js-anim .hero-cta,
       .js-anim #inicio .flare,
@@ -1986,6 +1985,11 @@
               <path fill="black" d="M1368 1803 c-58 -127 -151 -348 -209 -496 -35 -91 -58 -137 -67 -135 -7 2 -51 95 -96 208 -87 213 -174 419 -199 467 -15 28 -15 28 -41 -31 -14 -32 -26 -60 -26 -61 0 -2 -41 -97 -91 -212 -286 -651 -303 -924 -76 -1196 49 -59 55 -55 28 18 -50 134 -23 259 131 603 58 128 65 132 97 60 162 -370 186 -474 148 -654 -16 -75 -10 -74 62 12 67 79 65 79 130 -6 62 -82 65 -84 46 -29 -49 138 6 407 129 633 56 102 72 118 85 85 5 -13 26 -62 46 -109 116 -262 168 -496 130 -587 -23 -54 -12 -51 33 9 214 286 172 601 -191 1421 -34 78 -34 78 -69 0z"/>
             </g></g>
           </mask>
+          <!-- máscara de revelação da chama. Default r=240 (chama VISÍVEL sem JS = progressive
+               enhancement). Com JS+motion, o script abaixo zera o r antes do paint e o módulo anima 0→240. -->
+          <mask id="hero-disc-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+            <circle id="hero-disc-wipe" cx="256" cy="256" r="240" fill="white"/>
+          </mask>
         </defs>
         <!-- Wordmark MAGMA: cada letra em .wm-letter (animável individualmente) -->
         <g transform="translate(0 78)">
@@ -1998,9 +2002,21 @@
         <!-- Símbolo (anel + chama) em laranja, escalado p/ o lockup; partes animáveis -->
         <g transform="translate(1010 5) scale(0.48828)" style="color:var(--accent)">
           <circle id="hero-ring" cx="256" cy="256" r="246" fill="none" stroke="currentColor" stroke-width="9"/>
-          <circle id="hero-disc" cx="256" cy="256" r="220" fill="currentColor" mask="url(#hero-flame-mask)"/>
+          <g mask="url(#hero-disc-reveal)">
+            <circle id="hero-disc" cx="256" cy="256" r="220" fill="currentColor" mask="url(#hero-flame-mask)"/>
+          </g>
         </g>
       </svg>
+      <script>
+        /* esconde a chama (r=0) só se vamos animar — JS off / reduced-motion mantêm r=240 (visível) */
+        (function () {
+          var w = document.getElementById('hero-disc-wipe');
+          if (!w) return;
+          var willAnimate = document.documentElement.classList.contains('js-anim')
+            && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (willAnimate) w.setAttribute('r', '0');
+        })();
+      </script>
 
       <div class="hero-meta">
         <p class="hero-location">Um tributo à banda.</p>
@@ -3548,15 +3564,16 @@
 
     if (reduce) {
       docEl.classList.remove('js-anim'); // revela tudo, sem movimento
+      const w = document.getElementById('hero-disc-wipe'); if (w) w.setAttribute('r', 240); // chama visível
     } else {
-      /* 1) HERO "IGNIÇÃO" — anel desenha → chama acende → MAGMA letra a letra → CTA → flares */
+      /* 1) HERO "IGNIÇÃO" — anel desenha → chama é descoberta por máscara → MAGMA letra a letra → CTA → flares */
       try {
         utils.set('.wm-letter', { opacity: 0, y: 64 });
-        utils.set('#hero-disc', { opacity: 0, scale: 0.2 });
         const heroRing = svg.createDrawable('#hero-ring');
         createTimeline({ defaults: { ease: 'out(3)' } })
           .add(heroRing, { opacity: [0, 1], draw: ['0 0', '0 1'], duration: 1100, ease: 'inOut(3)' })
-          .add('#hero-disc', { opacity: [0, 1], scale: [0.2, 1], ease: spring({ bounce: 0.6, stiffness: 90 }) }, '-=550')
+          // a chama é revelada pela máscara (mesmo espírito do traço do anel), com leve atraso
+          .add('#hero-disc-wipe', { r: [0, 240], duration: 1000, ease: 'out(3)' }, '-=800')
           .add('#hero-ring', { stroke: ['#E05A1A', '#FFB060', '#E05A1A'], duration: 700 }, '<')
           .add('.wm-letter', { opacity: [0, 1], y: [64, 0], duration: 700, delay: stagger(70, { from: 'center' }) }, '-=300')
           .add('.hero-location', { opacity: [0, 1], y: [16, 0] }, '-=400')
