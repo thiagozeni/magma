@@ -115,11 +115,14 @@
       line-height: 1;
     }
 
+    /* subtítulo de seção — mesma identidade do "Um tributo à banda" (.hero-location) */
     .section-header p {
-      margin-top: 12px;
+      margin-top: 14px;
       color: var(--muted);
-      font-size: .95rem;
-      letter-spacing: .04em;
+      font-family: var(--font-body);
+      font-size: .9rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
     }
 
     /* fade-in animation */
@@ -555,7 +558,8 @@
       top: 0;
       bottom: 0;
       width: 2px;
-      background: linear-gradient(to bottom, transparent, var(--accent) 5%, var(--accent) 95%, transparent);
+      /* trilha "fria" — brasa apagada do passado; a chama (.timeline__lit) acende por cima */
+      background: linear-gradient(to bottom, transparent, rgba(224,90,26,.26) 5%, rgba(224,90,26,.26) 95%, transparent);
       transform: translateX(-50%);
     }
 
@@ -624,6 +628,47 @@
       width: 22px;
       height: 22px;
       margin-top: 1px;
+    }
+
+    /* ── Linha de ignição: a "chama" desce a timeline conforme o scroll (anime.js onScroll scrub) ──
+       Sobrepõe a trilha estática (.timeline::before) sem substituí-la. height:0 por padrão →
+       invisível sem JS / reduced-motion (a trilha base aparece normalmente). */
+    .timeline__lit {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 3px;
+      height: 0;
+      transform: translateX(-50%);
+      background: linear-gradient(to bottom, transparent, var(--accent) 12%, #FF8A2A 80%, #FFC880 100%);
+      box-shadow: 0 0 14px 1px rgba(224,90,26,.75);
+      z-index: 0;
+      pointer-events: none;
+      will-change: height;
+    }
+    /* ponta incandescente que cavalga a borda inferior (height anima → ::after não distorce) */
+    .timeline__lit::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -5px;
+      width: 13px;
+      height: 13px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, #FFFFFF 0%, #FFE6BE 30%, #FFB060 55%, var(--accent) 100%);
+      box-shadow: 0 0 28px 7px rgba(255,150,60,.9), 0 0 10px 2px rgba(255,255,255,.85);
+    }
+    @media (max-width: 680px) { .timeline__lit { left: 8px; } }
+    @media (prefers-reduced-motion: reduce) { .timeline__lit { display: none; } }
+
+    /* ── Reveal direcional alternado dos eventos (desktop): cada lado entra do seu lado ──
+       Reaproveita o IntersectionObserver de .fade-in (adiciona .visible). Só desktop com
+       movimento permitido; no mobile/reduced-motion mantém o translateY padrão de .fade-in. */
+    @media (min-width: 681px) and (prefers-reduced-motion: no-preference) {
+      .tl-event.fade-in:nth-child(odd)  { transform: translateX(-44px); }
+      .tl-event.fade-in:nth-child(even) { transform: translateX(44px); }
+      .tl-event.fade-in.visible         { transform: none; }
     }
 
     @media (max-width: 680px) {
@@ -2225,6 +2270,9 @@
           </div>
         </div>
 
+        <!-- Linha de ignição (último filho: não afeta os :nth-child dos .tl-event; é position:absolute) -->
+        <div class="timeline__lit" aria-hidden="true"></div>
+
       </div>
     </div>
   </section>
@@ -3648,6 +3696,17 @@
           });
         } catch (e) { utils.set(el, { opacity: 1 }); }
       });
+
+      /* 7) TIMELINE — linha de ignição "desce" a timeline amarrada ao scroll (scrub 1:1).
+         A trilha estática (.timeline::before) permanece como base; a chama avança por cima.
+         enter/leave usam o centro da viewport: progresso 0 quando o topo da timeline cruza
+         o centro, 1 quando o rodapé cruza o centro. */
+      try {
+        animate('.timeline__lit', {
+          height: ['0%', '100%'], ease: 'linear',
+          autoplay: onScroll({ target: '.timeline', enter: 'center top', leave: 'center bottom', sync: true }),
+        });
+      } catch (e) { console.warn('[anime] timeline lit', e); }
     }
   </script>
 
