@@ -3566,19 +3566,22 @@
       docEl.classList.remove('js-anim'); // revela tudo, sem movimento
       const w = document.getElementById('hero-disc-wipe'); if (w) w.setAttribute('r', 240); // chama visível
     } else {
-      /* 1) HERO "IGNIÇÃO" — anel desenha → chama é descoberta por máscara → MAGMA letra a letra → CTA → flares */
+      /* 1) HERO "IGNIÇÃO" — MAGMA letra a letra (esq→dir) → bolinha (anel desenha + chama por máscara) → CTA (máscara esq→dir) → flares */
       try {
         utils.set('.wm-letter', { opacity: 0, y: 64 });
+        utils.set('.hero-cta', { clipPath: 'inset(0 100% 0 0)' });
         const heroRing = svg.createDrawable('#hero-ring');
         createTimeline({ defaults: { ease: 'out(3)' } })
-          .add(heroRing, { opacity: [0, 1], draw: ['0 0', '0 1'], duration: 1100, ease: 'inOut(3)' })
-          // a chama é revelada pela máscara (mesmo espírito do traço do anel), com leve atraso
-          .add('#hero-disc-wipe', { r: [0, 240], duration: 1000, ease: 'out(3)' }, '-=800')
-          .add('#hero-ring', { stroke: ['#E05A1A', '#FFB060', '#E05A1A'], duration: 700 }, '<')
-          .add('.wm-letter', { opacity: [0, 1], y: [64, 0], duration: 700, delay: stagger(70, { from: 'center' }) }, '-=300')
-          .add('.hero-location', { opacity: [0, 1], y: [16, 0] }, '-=400')
-          .add('.hero-cta', { opacity: [0, 1], scale: [0, 1], ease: spring({ bounce: 0.5 }) }, '-=200')
-          .add('#inicio .flare', { opacity: [0, 1], scale: [0.6, 1], duration: 700, delay: stagger(70) }, '-=750');
+          // as letras de MAGMA surgem uma a uma, da esquerda para a direita
+          .add('.wm-letter', { opacity: [0, 1], y: [64, 0], duration: 460, delay: stagger(80) })
+          // a bolinha da chama entra logo após a última letra: anel desenha + chama revelada por máscara
+          .add(heroRing, { opacity: [0, 1], draw: ['0 0', '0 1'], duration: 640, ease: 'inOut(3)' }, '-=100')
+          .add('#hero-disc-wipe', { r: [0, 240], duration: 560, ease: 'out(3)' }, '-=440')
+          .add('#hero-ring', { stroke: ['#E05A1A', '#FFB060', '#E05A1A'], duration: 500 }, '<')
+          .add('.hero-location', { opacity: [0, 1], y: [16, 0] }, '-=220')
+          // CTA revelado por máscara, da esquerda para a direita
+          .add('.hero-cta', { opacity: [0, 1], clipPath: ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'], duration: 460, ease: 'out(3)' }, '-=160')
+          .add('#inicio .flare', { opacity: [0, 1], scale: [0.6, 1], duration: 520, delay: stagger(50) }, '-=480');
       } catch (e) { console.warn('[anime] hero', e); docEl.classList.remove('js-anim'); }
 
       /* 2) PARALLAX dos flares com DAMPING (createAnimatable) */
