@@ -148,6 +148,11 @@
       color: var(--accent); opacity: .05; pointer-events: none;
     }
 
+    /* ── Shader de fluido como fundo de seção (ash em #formacoes, ember em #videos) ── */
+    .shader-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;opacity:0;transition:opacity 1.2s ease;pointer-events:none}
+    .shader-bg.ready{opacity:1}
+    @media (prefers-reduced-motion: reduce){ .shader-bg{display:none} }
+
     @media (prefers-reduced-motion: reduce) {
       .js-anim .hero-logo-svg .wm-letter,
       .js-anim #hero-ring,
@@ -2227,8 +2232,10 @@
   <!-- ============================================================
        FORMACOES
   ============================================================ -->
-  <section id="formacoes" class="section" aria-labelledby="formacoes-title">
-    <div class="container">
+  <section id="formacoes" class="section" aria-labelledby="formacoes-title" style="position:relative;overflow:hidden">
+    <canvas class="shader-bg" data-palette="ash" aria-hidden="true"></canvas>
+    <div style="position:absolute;inset:0;z-index:1;background:rgba(17,17,17,.6);pointer-events:none" aria-hidden="true"></div>
+    <div class="container" style="position:relative;z-index:2">
       <div class="section-header fade-in" data-split-parent>
         <h2 id="formacoes-title" data-split>Formações</h2>
         <p>As pessoas que fizeram a Magma existir</p>
@@ -2827,8 +2834,9 @@
   <section id="videos" aria-labelledby="videos-title" style="position:relative;overflow:hidden;padding:100px 0">
     <!-- Fundo imersivo -->
     <img src="imgs/fotos/Screenshot_20210620-104758_YouTube.jpg" alt="" aria-hidden="true" loading="lazy"
-      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.12) saturate(.4);" data-depth="0.18">
-    <div style="position:absolute;inset:0;background:rgba(8,8,8,.75);" aria-hidden="true"></div>
+      style="position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;filter:brightness(.12) saturate(.4);" data-depth="0.18">
+    <canvas class="shader-bg" data-palette="ember" aria-hidden="true"></canvas>
+    <div style="position:absolute;inset:0;z-index:1;background:rgba(8,8,8,.5);" aria-hidden="true"></div>
     <!-- Flares -->
     <div class="flare flare-orb" data-depth="1.3" style="width:300px;height:300px;top:-60px;left:5%;" aria-hidden="true"></div>
     <div class="flare flare-gold" data-depth="1.4" style="width:260px;height:260px;bottom:-40px;right:8%;" aria-hidden="true"></div>
@@ -3641,6 +3649,76 @@
         } catch (e) { utils.set(el, { opacity: 1 }); }
       });
     }
+  </script>
+
+  <!-- ============================================================
+       Fundo de fluido (shader) em #formacoes (cinzas) e #videos (lava).
+       Não toca os canvas de vídeo do hero/história. Fallback + reduced-motion + pausa off-screen.
+  ============================================================ -->
+  <script>
+    /* Shader de fundo em WebGL puro — sem libs, sem CDN, ~2KB. */
+    const PALETTES = {
+      ember: [[0.02,0.02,0.03],[0.50,0.10,0.02],[0.88,0.35,0.10],[1.00,0.78,0.34]], // lava
+      ash:   [[0.02,0.02,0.03],[0.16,0.16,0.18],[0.42,0.42,0.45],[0.86,0.86,0.90]], // cinzas/fumaça
+    };
+    const VERT = "attribute vec2 aPos; varying vec2 vUv; void main(){ vUv=aPos*0.5+0.5; gl_Position=vec4(aPos,0.0,1.0); }";
+    const FRAG = `
+      precision highp float;
+      uniform float uTime; uniform vec2 uMouse, uResolution; uniform vec3 uA,uB,uC,uD; varying vec2 vUv;
+      float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+      float noise(vec2 p){ vec2 i=floor(p),f=fract(p); vec2 u=f*f*(3.0-2.0*f);
+        return mix(mix(hash(i),hash(i+vec2(1,0)),u.x), mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x), u.y); }
+      float fbm(vec2 p){ float v=0.0,a=0.5; for(int i=0;i<6;i++){ v+=a*noise(p); p*=2.0; a*=0.5; } return v; }
+      void main(){
+        vec2 uv=vUv; uv.x*=uResolution.x/uResolution.y;
+        float t=uTime*0.12; vec2 m=uMouse*0.35;
+        vec2 q=vec2(fbm(uv*3.0+t+m), fbm(uv*3.0-t*0.8+m.yx));
+        float f=fbm(uv*3.0+q*2.2+t);
+        vec3 col=mix(uA,uB,smoothstep(0.18,0.5,f));
+        col=mix(col,uC,smoothstep(0.45,0.72,f));
+        col=mix(col,uD,smoothstep(0.72,0.92,f*f));
+        float vig=smoothstep(1.3,0.4,length(vUv-0.5));
+        col*=vig*0.9+0.1;
+        gl_FragColor=vec4(col,1.0);
+      }`;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function createShaderBG(canvas) {
+      const section = canvas.closest("section");
+      const pal = PALETTES[canvas.dataset.palette]; if (!section || !pal) return;
+      const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+      if (!gl) { console.warn("[shader-bg] WebGL indisponível, fallback CSS"); return; }
+      function compile(type, src){ const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s);
+        if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)) console.warn(gl.getShaderInfoLog(s)); return s; }
+      const prog = gl.createProgram();
+      gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
+      gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+      gl.linkProgram(prog); gl.useProgram(prog);
+      const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW); // full-screen triangle
+      const aPos = gl.getAttribLocation(prog, "aPos");
+      gl.enableVertexAttribArray(aPos); gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+      const U = n => gl.getUniformLocation(prog, n);
+      const uTime=U("uTime"), uMouse=U("uMouse"), uRes=U("uResolution");
+      gl.uniform3fv(U("uA"),pal[0]); gl.uniform3fv(U("uB"),pal[1]); gl.uniform3fv(U("uC"),pal[2]); gl.uniform3fv(U("uD"),pal[3]);
+      let mx=0, my=0;
+      function resize(){ const dpr=Math.min(devicePixelRatio,1.75);
+        const w=Math.round(canvas.clientWidth*dpr), h=Math.round(canvas.clientHeight*dpr);
+        if(w&&h&&(canvas.width!==w||canvas.height!==h)){ canvas.width=w; canvas.height=h; } gl.viewport(0,0,canvas.width,canvas.height); }
+      addEventListener("resize", resize); resize();
+      section.addEventListener("pointermove", e=>{ const r=section.getBoundingClientRect();
+        mx=(e.clientX-r.left)/r.width-0.5; my=-((e.clientY-r.top)/r.height-0.5); });
+      canvas.classList.add("ready");
+      let visible=false;
+      new IntersectionObserver(([en])=>visible=en.isIntersecting,{threshold:0}).observe(section);
+      const t0=performance.now();
+      (function tick(){ requestAnimationFrame(tick); if(!visible)return;
+        gl.uniform1f(uTime,(performance.now()-t0)/1000); gl.uniform2f(uMouse,mx,my); gl.uniform2f(uRes,canvas.width,canvas.height);
+        gl.drawArrays(gl.TRIANGLES,0,3);
+      })();
+    }
+
+    if (!reduce) document.querySelectorAll(".shader-bg").forEach(createShaderBG);
   </script>
 
 </body>

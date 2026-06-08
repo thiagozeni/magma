@@ -37,3 +37,4 @@ service_account.json
 videos/
 _divulga/
 # video-fx/ É tracado: frames das animações scroll-scrub + MP4s do site (~14MB)
+_webgl-proto/
