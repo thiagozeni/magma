@@ -19,8 +19,12 @@ yarn-debug.log*
 
 # Temp / backup
 *.bak
+*.bak-*
 *.tmp
 *~
+
+# Protótipos / experimentos locais (não publicar)
+_anime-proto/
 
 # Security / Credentials
 .env
