@@ -3950,7 +3950,9 @@
       document.querySelectorAll('.disco-big-year').forEach(el => countUp(el, 16));
 
       /* 4) HOVER com SPRING nas capas de álbum */
-      document.querySelectorAll('.disco-cover-col img').forEach(cover => {
+      // capa com loop de vídeo: anima o wrapper (img + video juntos) para o vídeo acompanhar o giro
+      document.querySelectorAll('.disco-cover-col img').forEach(img => {
+        const cover = img.closest('.disco-cover-media') || img;
         cover.addEventListener('mouseenter', () =>
           animate(cover, { scale: 1.05, rotate: -1.5, ease: spring({ stiffness: 200, damping: 14 }) }));
         cover.addEventListener('mouseleave', () =>
