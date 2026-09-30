@@ -1295,59 +1295,251 @@
     .lightbox-close:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ============================================================
-       VIDEOS
+       VIDEOS — destaques em loop + arquivo (2006–2025) + player
+       Loops: MP4 mudo em clips/ (src só entra perto da viewport, toca só visível).
+       Clique abre o vídeo completo no #yt-dialog (youtube-nocookie) já no trecho.
     ============================================================ */
     #videos { background: var(--surface); }
 
-    .videos-grid {
+    video.loop { display: block; width: 100%; height: 100%; object-fit: cover; background: #000; }
+
+    /* ── Destaques (HD) ── */
+    .vfeat {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      gap: 32px;
     }
-
-    .video-block {}
-
+    .vfeat-card {
+      display: block;
+      color: var(--text);
+      background: rgba(11,11,11,.85);
+      border: 1px solid var(--border);
+      transition: border-color .35s var(--ease);
+    }
+    .vfeat-card:hover { color: var(--text); border-color: rgba(224,90,26,.55); }
+    .vfeat-media {
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: #000;
+    }
+    .vfeat-media video { transition: transform 1.2s var(--ease), filter .6s; filter: saturate(.9) brightness(.92); }
+    .vfeat-card:hover .vfeat-media video { transform: scale(1.035); filter: none; }
+    .vfeat-media::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(8,8,8,.75) 100%);
+      pointer-events: none;
+    }
+    .vplay {
+      position: absolute; left: 18px; bottom: 16px; z-index: 1;
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-head); font-weight: 700;
+      font-size: .78rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--text);
+    }
+    .vplay-ico {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--accent); color: #fff;
+      box-shadow: 0 0 0 0 rgba(224,90,26,.5);
+      transition: transform .35s var(--ease), box-shadow .6s;
+    }
+    .vplay-ico svg { width: 13px; height: 13px; margin-left: 2px; }
+    .vfeat-card:hover .vplay-ico { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(224,90,26,0); }
+    .vplay-dur { color: rgba(240,236,230,.6); font-variant-numeric: tabular-nums; }
+    .vfeat-body { padding: 18px 20px 20px; }
     .video-title {
       font-family: var(--font-head);
       font-weight: 900;
       font-size: 1.2rem;
       letter-spacing: .04em;
       color: var(--text);
-      margin-bottom: 6px;
     }
+    .video-meta { padding-top: 6px; font-size: .8rem; color: var(--muted); line-height: 1.5; }
+    .video-desc { padding-top: 12px; font-size: .9rem; color: rgba(240,236,230,.72); line-height: 1.6; }
 
-    .video-meta {
-      font-size: .8rem;
-      color: var(--muted);
-      margin-bottom: 12px;
-      line-height: 1.5;
+    /* ── Arquivo: mural de loops com tratamento de brasa ── */
+    .varq-head {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+      margin: 72px 0 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
     }
-
-    .video-embed {
+    .varq-head h3 {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      letter-spacing: .06em; text-transform: uppercase; line-height: 1;
+    }
+    .varq-head p {
+      color: var(--muted); font-size: .78rem; letter-spacing: .2em; text-transform: uppercase;
+      text-align: right;
+    }
+    .varq-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .varq-tile {
       position: relative;
-      aspect-ratio: 16/9;
+      display: block;
+      aspect-ratio: 4/3;
       overflow: hidden;
+      background: #0b0b0b;
+      color: var(--text);
+      outline-offset: 3px;
+    }
+    .varq-tile--v { grid-column: 4; grid-row: 2 / span 2; aspect-ratio: auto; }
+    /* tinta de brasa: monocromático laranja via filter (mix-blend sobre <video> não é confiável) */
+    .varq-tile video {
+      position: absolute; inset: 0;
+      filter: grayscale(1) sepia(1) saturate(3.2) hue-rotate(-12deg) contrast(1.15) brightness(.78);
+      transition: filter .5s var(--ease), transform 1s var(--ease);
+    }
+    /* vinheta + scanlines de fita */
+    .varq-tile::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(8,8,8,0) 45%, rgba(8,8,8,.88) 100%),
+        repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px);
+    }
+    .varq-tile:hover video,
+    .varq-tile:focus-visible video { filter: none; transform: scale(1.05); }
+    .varq-cap {
+      position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 1;
+      display: flex; flex-direction: column; gap: 2px;
+      transform: translateY(4px);
+      transition: transform .45s var(--ease);
+    }
+    .varq-tile:hover .varq-cap { transform: none; }
+    .varq-year {
+      font-family: var(--font-head); font-weight: 700;
+      font-size: .7rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+    .varq-tile:hover .varq-year { color: var(--gold); }
+    .varq-name {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: 1.02rem; letter-spacing: .03em; line-height: 1.1;
+      text-transform: uppercase;
+    }
+    .varq-ctx { font-size: .74rem; color: rgba(240,236,230,.66); line-height: 1.3; }
+    .varq-go {
+      position: absolute; top: 10px; right: 10px; z-index: 1;
+      width: 30px; height: 30px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: rgba(8,8,8,.55); border: 1px solid rgba(240,236,230,.25);
+      color: var(--text);
+      opacity: 0; transform: scale(.8);
+      transition: opacity .35s, transform .35s var(--ease), background .35s;
+    }
+    .varq-go svg { width: 10px; height: 10px; margin-left: 2px; }
+    .varq-tile:hover .varq-go,
+    .varq-tile:focus-visible .varq-go { opacity: 1; transform: none; background: var(--accent); border-color: var(--accent); }
+
+    /* ── CTA: arquivo completo no YouTube ── */
+    .varq-cta {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 6px 24px;
+      margin-top: 28px;
+      padding: 26px 28px;
+      border: 1px solid var(--accent);
+      color: var(--text);
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .varq-cta::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background: var(--accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .6s var(--ease);
+    }
+    .varq-cta:hover { color: #fff; }
+    .varq-cta:hover::before { transform: scaleX(1); }
+    .varq-cta-kicker {
+      grid-column: 1;
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent); transition: color .3s;
+    }
+    .varq-cta:hover .varq-cta-kicker { color: rgba(255,255,255,.85); }
+    .varq-cta-title {
+      grid-column: 1;
+      font-family: var(--font-head); font-weight: 900;
+      font-size: clamp(1.5rem, 3.6vw, 2.4rem);
+      letter-spacing: .04em; text-transform: uppercase; line-height: 1;
+    }
+    .varq-cta-arrow {
+      grid-column: 2; grid-row: 1 / span 2;
+      font-family: var(--font-head); font-weight: 900; font-size: 2.2rem; line-height: 1;
+      transition: transform .5s var(--ease);
+    }
+    .varq-cta:hover .varq-cta-arrow { transform: translateX(8px); }
+
+    @media (max-width: 900px) {
+      .vfeat { grid-template-columns: 1fr; gap: 24px; }
+      .varq-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .varq-tile--v { grid-column: auto; grid-row: span 2; }
+      .varq-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .varq-head p { text-align: left; }
+      .varq-name { font-size: .92rem; }
+      .varq-ctx { font-size: .66rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    }
+    @media (max-width: 480px) {
+      .varq-cta { padding: 22px 20px; }
+      .varq-cta-arrow { font-size: 1.8rem; }
+    }
+    /* touch: sem hover, a legenda já nasce no lugar e a tinta é mais leve */
+    @media (hover: none) {
+      .varq-tile video { filter: grayscale(.4) sepia(.5) saturate(1.6) hue-rotate(-12deg) brightness(.85); }
+      .varq-cap { transform: none; }
+    }
+
+    /* ── Player (dialog) ── */
+    .yt-dialog {
+      border: none; padding: 0; margin: auto;
+      background: transparent; color: var(--text);
+      max-width: none; max-height: none;
+      overflow: visible;
+    }
+    .yt-dialog::backdrop { background: rgba(8,8,8,.94); backdrop-filter: blur(6px); }
+    .yt-dialog[open] { animation: ytIn .45s var(--ease); }
+    @keyframes ytIn { from { opacity: 0; transform: translateY(18px) scale(.98); } }
+    .yt-frame {
+      position: relative;
+      width: min(92vw, 1120px, calc(80vh * 16 / 9));
+      aspect-ratio: 16/9;
       background: #000;
       border: 1px solid var(--border);
+      box-shadow: 0 30px 120px rgba(224,90,26,.18);
     }
-
-    .video-embed iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
+    .yt-dialog.is-vertical .yt-frame { width: min(92vw, calc(80vh * 9 / 16)); aspect-ratio: 9/16; }
+    .yt-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .yt-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 12px 2px 0;
     }
-
-    .video-desc {
-      margin-top: 12px;
-      font-size: .85rem;
-      color: var(--muted);
-      line-height: 1.55;
+    .yt-title {
+      font-family: var(--font-head); font-weight: 700;
+      font-size: .9rem; letter-spacing: .12em; text-transform: uppercase;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
-
-    @media (max-width: 700px) {
-      .videos-grid { grid-template-columns: 1fr; }
+    .yt-actions { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+    .yt-ext { font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; }
+    .yt-close {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid rgba(240,236,230,.3); background: transparent; color: var(--text);
+      display: grid; place-items: center; cursor: pointer;
+      transition: background .3s, border-color .3s;
+    }
+    .yt-close:hover, .yt-close:focus-visible { background: var(--accent); border-color: var(--accent); }
+    .yt-close svg { width: 14px; height: 14px; }
+    @media (prefers-reduced-motion: reduce) {
+      .yt-dialog[open] { animation: none; }
+      .varq-tile video, .vfeat-media video { transition: none; }
     }
 
     /* ============================================================
@@ -1656,6 +1848,36 @@
       transform: none !important;
       filter: grayscale(0%) !important;
     }
+    /* foto que se mexe: loop do arquivo no lugar da foto (mesma moldura/rotação) */
+    .tl-video {
+      position: relative; display: block;
+      width: 190px; height: 130px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,.7);
+      overflow: hidden;
+      transition: transform .4s, border-color .4s;
+    }
+    .tl-photo-wrap.rotate-r .tl-video { transform: rotate(1.8deg); }
+    .tl-photo-wrap.rotate-l .tl-video { transform: rotate(-1.8deg); }
+    .tl-video:hover, .tl-video:focus-visible { transform: rotate(0) scale(1.03); border-color: var(--accent); }
+    .tl-video video { filter: grayscale(30%); transition: filter .4s; }
+    .tl-video:hover video { filter: none; }
+    .tl-video-tag {
+      position: absolute; left: 8px; bottom: 7px;
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-head); font-weight: 700;
+      font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--text); text-shadow: 0 1px 6px rgba(0,0,0,.9);
+    }
+    .tl-video-tag::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 8px var(--accent);
+    }
+    .tl-photo-wrap.highlight .tl-video {
+      border-color: var(--gold);
+      box-shadow: 0 8px 40px rgba(200,122,42,.4);
+      transform: none;
+    }
 
     /* ── Discografia — seções parallax por álbum ── */
     .disco-section {
@@ -1698,6 +1920,30 @@
       display: block;
       will-change: transform;
     }
+    /* capa ganha movimento no hover (desktop): loop do vídeo da época sobre a capa */
+    .disco-cover-media { position: relative; display: inline-block; vertical-align: top; line-height: 0; }
+    .disco-cover-media video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      opacity: 0; transition: opacity .6s var(--ease);
+      pointer-events: none;
+    }
+    .disco-cover-media.is-playing video { opacity: 1; }
+    .disco-watch { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .disco-watch a {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 9px 14px 9px 10px;
+      border: 1px solid rgba(224,90,26,.45);
+      color: var(--text);
+      font-size: .8rem; letter-spacing: .06em;
+      transition: border-color .3s, background .3s;
+    }
+    .disco-watch a:hover { border-color: var(--accent); background: rgba(224,90,26,.12); color: var(--text); }
+    .disco-watch a span[aria-hidden] {
+      width: 22px; height: 22px; border-radius: 50%;
+      display: grid; place-items: center; flex-shrink: 0;
+      background: var(--accent); color: #fff;
+    }
+    .disco-watch svg { width: 8px; height: 8px; margin-left: 1px; }
     /* hover scale+rotate agora via anime.js (spring) no módulo do fim do body */
     .disco-type-tag {
       position: absolute;
@@ -1849,6 +2095,21 @@
       z-index: 1;
       display: block;
     }
+    .reunion-video {
+      position: relative; z-index: 1; display: block;
+      aspect-ratio: 4/3; overflow: hidden;
+      border: 2px solid var(--gold);
+      color: var(--text);
+    }
+    .reunion-video:hover { color: var(--text); }
+    .reunion-video video { transition: transform 1.2s var(--ease); }
+    .reunion-video:hover video { transform: scale(1.04); }
+    .reunion-video::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, transparent 60%, rgba(8,8,8,.7) 100%);
+    }
+    .reunion-video .vplay { z-index: 2; }
+    .reunion-video:hover .vplay-ico { transform: scale(1.1); }
     .reunion-gold-badge {
       display: inline-block;
       background: rgba(200,122,42,.15);
@@ -2188,7 +2449,10 @@
         <div class="tl-event fade-in tl-highlight">
           <div class="tl-side">
             <div class="tl-photo-wrap rotate-l fade-in" data-delay="2">
-              <img src="imgs/fotos/ShowSapiranga%20038.jpg" alt="Magma — show 2006" loading="lazy">
+              <a class="tl-video" href="https://www.youtube.com/watch?v=XkKNVfvyPFg&amp;t=36s" target="_blank" rel="noopener" data-yt="XkKNVfvyPFg" data-start="36" data-title="Descanso em Paz · ao vivo · 2006" aria-label="Assistir: Descanso em Paz, ao vivo, 2006">
+                <video class="loop" muted loop playsinline preload="none" poster="clips/descanso-2006.jpg" data-src="clips/descanso-2006.mp4" aria-hidden="true"></video>
+                <span class="tl-video-tag">Ao vivo · 2006</span>
+              </a>
             </div>
           </div>
           <div class="tl-dot" aria-hidden="true"></div>
@@ -2209,7 +2473,10 @@
           <div class="tl-dot" aria-hidden="true"></div>
           <div class="tl-side">
             <div class="tl-photo-wrap rotate-r fade-in" data-delay="2">
-              <img src="imgs/fotos/ShowSapiranga%20046.jpg" alt="Magma — show 2007" loading="lazy">
+              <a class="tl-video" href="https://www.youtube.com/watch?v=Jpq6DTS_AYI&amp;t=22s" target="_blank" rel="noopener" data-yt="Jpq6DTS_AYI" data-start="22" data-title="Em Qualquer Lugar · DVD promocional · 2007" aria-label="Assistir: Em Qualquer Lugar, DVD promocional, 2007">
+                <video class="loop" muted loop playsinline preload="none" poster="clips/dvd-em-qualquer.jpg" data-src="clips/dvd-em-qualquer.mp4" aria-hidden="true"></video>
+                <span class="tl-video-tag">DVD promo · 2007</span>
+              </a>
             </div>
           </div>
         </div>
@@ -2244,7 +2511,10 @@
         <div class="tl-event fade-in tl-highlight">
           <div class="tl-side">
             <div class="tl-photo-wrap rotate-l fade-in" data-delay="2">
-              <img src="imgs/fotos/Screenshot_20210620-104758_YouTube.jpg" alt="Magma — 20 anos, medley Bon Jovi" loading="lazy">
+              <a class="tl-video" href="https://www.youtube.com/watch?v=2iPOVC3WC7U" target="_blank" rel="noopener" data-yt="2iPOVC3WC7U" data-start="0" data-title="20 Anos de Magma — Medley Bon Jovi" aria-label="Assistir: 20 anos de Magma, medley Bon Jovi, 2021">
+                <video class="loop" muted loop playsinline preload="none" poster="clips/medley-2021.jpg" data-src="clips/medley-2021.mp4" aria-hidden="true"></video>
+                <span class="tl-video-tag">Medley · 2021</span>
+              </a>
             </div>
           </div>
           <div class="tl-dot" aria-hidden="true"></div>
@@ -2465,7 +2735,7 @@
       <div class="container">
         <div class="disco-layout">
           <div class="disco-cover-col fade-in">
-            <img src="imgs/fotos/EP.jpg" alt="Capa EP Magma 2004" loading="lazy">
+            <div class="disco-cover-media" data-hover-loop><img src="imgs/fotos/EP.jpg" alt="Capa EP Magma 2004" loading="lazy"><video class="loop" muted loop playsinline preload="none" data-src="clips/clipe-sobre-ela.mp4" aria-hidden="true"></video></div>
             <span class="disco-type-tag">EP</span>
           </div>
           <div class="disco-info-col fade-in" data-delay="2">
@@ -2481,6 +2751,7 @@
               <li>Um Bom Motivo</li>
             </ul>
             <p class="disco-note">6 faixas · Primeiro registro oficial da banda</p>
+            <div class="disco-watch"><a href="https://www.youtube.com/watch?v=1r5I9UfthyQ" target="_blank" rel="noopener" data-yt="1r5I9UfthyQ" data-start="0" data-title="Sobre Ela · videoclipe"><span aria-hidden="true"><svg viewBox="0 0 10 12"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>Sobre Ela — videoclipe</a></div>
           </div>
         </div>
       </div>
@@ -2494,7 +2765,7 @@
       <div class="container">
         <div class="disco-layout flip">
           <div class="disco-cover-col fade-in">
-            <img src="imgs/fotos/Pra%20Recome%C3%A7ar.jpg" alt="Capa Pra Recomeçar 2006" loading="lazy">
+            <div class="disco-cover-media" data-hover-loop><img src="imgs/fotos/Pra%20Recome%C3%A7ar.jpg" alt="Capa Pra Recomeçar 2006" loading="lazy"><video class="loop" muted loop playsinline preload="none" data-src="clips/sobre-ela-2006.mp4" aria-hidden="true"></video></div>
             <span class="disco-type-tag">Álbum</span>
           </div>
           <div class="disco-info-col fade-in" data-delay="2">
@@ -2508,6 +2779,7 @@
               <li>feat. Jonathan Corrêa</li>
             </ul>
             <p class="disco-note">Nico Ventre (bat.) · Márcio Abreu (bx.) · Formação oficial completa</p>
+            <div class="disco-watch"><a href="https://www.youtube.com/watch?v=SVhFwsadjjs" target="_blank" rel="noopener" data-yt="SVhFwsadjjs" data-start="0" data-title="Sobre Ela · show de lançamento do Pra Recomeçar · 14.07.2006"><span aria-hidden="true"><svg viewBox="0 0 10 12"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>Show de lançamento — 14.07.2006</a></div>
           </div>
         </div>
       </div>
@@ -2535,6 +2807,7 @@
               <li>27 músicas no Letras.com</li>
             </ul>
             <p class="disco-note">O disco que fechou o ciclo — com a mesma intensidade do início</p>
+            <div class="disco-watch"><a href="https://www.youtube.com/watch?v=aur3VODISKs" target="_blank" rel="noopener" data-yt="aur3VODISKs" data-start="0" data-title="Todo Amor Que Eu Já Te Dei · Monophobia"><span aria-hidden="true"><svg viewBox="0 0 10 12"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>Todo Amor Que Eu Já Te Dei</a><a href="https://www.youtube.com/watch?v=yp-BfEM_rHE" target="_blank" rel="noopener" data-yt="yp-BfEM_rHE" data-start="0" data-title="Sobre Ela · versão Monophobia"><span aria-hidden="true"><svg viewBox="0 0 10 12"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>Sobre Ela — versão Monophobia</a></div>
           </div>
         </div>
       </div>
@@ -2590,7 +2863,10 @@
     <div class="container" style="padding:0 24px 60px">
       <div class="reunion-grid fade-in">
         <div class="reunion-img-wrap">
-          <img src="imgs/fotos/IMG_20251005_154441_246.jpg" alt="Magma — reencontro EAT Kitchen, out. 2025" loading="lazy">
+          <a class="reunion-video" href="https://www.youtube.com/watch?v=LTKSS166e7Y" target="_blank" rel="noopener" data-yt="LTKSS166e7Y" data-start="0" data-title="Show de Reencontro — EAT Kitchen" aria-label="Assistir ao show de reencontro completo (17:20)">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/show-2025-4x3.jpg" data-src="clips/show-2025-4x3.mp4" aria-hidden="true"></video>
+            <span class="vplay"><span class="vplay-ico"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>Show completo <span class="vplay-dur">17:20</span></span>
+          </a>
         </div>
         <div>
           <span class="reunion-gold-badge">Reencontro · 2025</span>
@@ -2895,51 +3171,98 @@
         <p>A Magma em movimento</p>
       </div>
 
-      <div class="videos-grid">
-
-        <div class="video-block fade-in" style="background:rgba(11,11,11,.85);border:1px solid var(--border);">
-          <div class="video-title" style="padding:20px 20px 0">20 Anos de Magma — Medley Bon Jovi</div>
-          <div class="video-meta" style="padding:6px 20px 14px;font-size:.8rem;color:var(--muted)">
-            2021 &middot; Gravação remota &middot; Pandemia<br>
-            <em>Living on a Prayer · You Give Love a Bad Name · Some Day I'll Be Saturday Night</em>
+      <div class="vfeat">
+        <a class="vfeat-card fade-in" href="https://www.youtube.com/watch?v=LTKSS166e7Y" target="_blank" rel="noopener" data-yt="LTKSS166e7Y" data-start="0" data-title="Show de Reencontro — EAT Kitchen" aria-label="Assistir: Show de Reencontro — EAT Kitchen (17:20)">
+          <div class="vfeat-media">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/show-2025.jpg" data-src="clips/show-2025.mp4" aria-hidden="true"></video>
+            <span class="vplay"><span class="vplay-ico"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>Assistir <span class="vplay-dur">17:20</span></span>
           </div>
-          <div class="video-embed">
-            <iframe
-              src="https://www.youtube.com/embed/2iPOVC3WC7U"
-              title="20 Anos de Magma — Medley Bon Jovi 2021"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen loading="lazy"
-            ></iframe>
+          <div class="vfeat-body">
+            <div class="video-title">Show de Reencontro — EAT Kitchen</div>
+            <div class="video-meta">Porto Alegre &middot; 04 de outubro de 2025<br><em>17 anos depois, a Magma voltou ao palco</em></div>
+            <p class="video-desc">No aniversário do baterista Nico Ventre, a Magma provou que 17 anos de hiato não apagaram nada. O fogo voltou — e estava mais forte do que nunca.</p>
           </div>
-          <p class="video-desc" style="padding:14px 20px 20px;font-size:.9rem;color:rgba(240,236,230,.72)">
-            Cada um de sua casa, reunidos pela pandemia — mas unidos pela música. Um tributo a 20 anos de história gravado à distância, com toda a energia que sempre definiu a banda.
-          </p>
-        </div>
-
-        <div class="video-block fade-in" data-delay="2" style="background:rgba(11,11,11,.85);border:1px solid var(--border);">
-          <div class="video-title" style="padding:20px 20px 0">Show de Reencontro — EAT Kitchen</div>
-          <div class="video-meta" style="padding:6px 20px 14px;font-size:.8rem;color:var(--muted)">
-            Porto Alegre &middot; 04 de outubro de 2025<br>
-            <em>17 anos depois, a Magma voltou ao palco</em>
+        </a>
+        <a class="vfeat-card fade-in" data-delay="2" href="https://www.youtube.com/watch?v=2iPOVC3WC7U" target="_blank" rel="noopener" data-yt="2iPOVC3WC7U" data-start="0" data-title="20 Anos de Magma — Medley Bon Jovi" aria-label="Assistir: 20 Anos de Magma — Medley Bon Jovi (5:16)">
+          <div class="vfeat-media">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/medley-2021.jpg" data-src="clips/medley-2021.mp4" aria-hidden="true"></video>
+            <span class="vplay"><span class="vplay-ico"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>Assistir <span class="vplay-dur">5:16</span></span>
           </div>
-          <div class="video-embed">
-            <iframe
-              src="https://www.youtube.com/embed/LTKSS166e7Y"
-              title="Magma — Show de Reencontro EAT Kitchen 2025"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen loading="lazy"
-            ></iframe>
+          <div class="vfeat-body">
+            <div class="video-title">20 Anos de Magma — Medley Bon Jovi</div>
+            <div class="video-meta">2021 &middot; Gravação remota &middot; Pandemia<br><em>Living on a Prayer · You Give Love a Bad Name · Some Day I'll Be Saturday Night</em></div>
+            <p class="video-desc">Cada um de sua casa, reunidos pela pandemia — mas unidos pela música. Um tributo a 20 anos de história gravado à distância, com toda a energia que sempre definiu a banda.</p>
           </div>
-          <p class="video-desc" style="padding:14px 20px 20px;font-size:.9rem;color:rgba(240,236,230,.72)">
-            No aniversário do baterista Nico Ventre, a Magma provou que 17 anos de hiato não apagaram nada. O fogo voltou — e estava mais forte do que nunca.
-          </p>
-        </div>
-
+        </a>
       </div>
+
+      <div class="varq-head fade-in">
+        <h3>Do arquivo ao reencontro</h3>
+        <p>Trechos do acervo &middot; toque para assistir</p>
+      </div>
+      <div class="varq-grid fade-in">
+          <a class="varq-tile" href="https://www.youtube.com/watch?v=XkKNVfvyPFg&amp;t=36s" target="_blank" rel="noopener" data-yt="XkKNVfvyPFg" data-start="36" data-title="Descanso em Paz · 2006" aria-label="Assistir: Descanso em Paz — Ao vivo no RS, 2006">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/descanso-2006.jpg" data-src="clips/descanso-2006.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">2006</span><span class="varq-name">Descanso em Paz</span><span class="varq-ctx">Ao vivo no RS</span></span>
+          </a>
+          <a class="varq-tile" href="https://www.youtube.com/watch?v=SVhFwsadjjs&amp;t=169s" target="_blank" rel="noopener" data-yt="SVhFwsadjjs" data-start="169" data-title="Sobre Ela · 14.07.2006" aria-label="Assistir: Sobre Ela — Show de lançamento do Pra Recomeçar, 14.07.2006">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/sobre-ela-2006.jpg" data-src="clips/sobre-ela-2006.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">14.07.2006</span><span class="varq-name">Sobre Ela</span><span class="varq-ctx">Show de lançamento do Pra Recomeçar</span></span>
+          </a>
+          <a class="varq-tile" href="https://www.youtube.com/watch?v=1r5I9UfthyQ&amp;t=207s" target="_blank" rel="noopener" data-yt="1r5I9UfthyQ" data-start="207" data-title="Sobre Ela · 2006" aria-label="Assistir: Sobre Ela — Videoclipe, 2006">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/clipe-sobre-ela.jpg" data-src="clips/clipe-sobre-ela.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">2006</span><span class="varq-name">Sobre Ela</span><span class="varq-ctx">Videoclipe</span></span>
+          </a>
+          <a class="varq-tile" href="https://www.youtube.com/watch?v=a0kOqzgITcc&amp;t=109s" target="_blank" rel="noopener" data-yt="a0kOqzgITcc" data-start="109" data-title="Sobre Ela · 2006" aria-label="Assistir: Sobre Ela — Clipe não oficial · edição de Rafael Barbieri, 2006">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/clipe-guitarra.jpg" data-src="clips/clipe-guitarra.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">2006</span><span class="varq-name">Sobre Ela</span><span class="varq-ctx">Clipe não oficial · edição de Rafael Barbieri</span></span>
+          </a>
+          <a class="varq-tile" href="https://www.youtube.com/watch?v=Jpq6DTS_AYI&amp;t=22s" target="_blank" rel="noopener" data-yt="Jpq6DTS_AYI" data-start="22" data-title="Em Qualquer Lugar · 2007" aria-label="Assistir: Em Qualquer Lugar — DVD promocional · ao vivo em estúdio, 2007">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/dvd-em-qualquer.jpg" data-src="clips/dvd-em-qualquer.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">2007</span><span class="varq-name">Em Qualquer Lugar</span><span class="varq-ctx">DVD promocional · ao vivo em estúdio</span></span>
+          </a>
+          <a class="varq-tile" href="https://www.youtube.com/watch?v=MqVDg0T4xb0&amp;t=86s" target="_blank" rel="noopener" data-yt="MqVDg0T4xb0" data-start="86" data-title="Making of do DVD · 2007" aria-label="Assistir: Making of do DVD — Parte 2 de 3, 2007">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/making-tv.jpg" data-src="clips/making-tv.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">2007</span><span class="varq-name">Making of do DVD</span><span class="varq-ctx">Parte 2 de 3</span></span>
+          </a>
+          <a class="varq-tile" href="https://www.youtube.com/watch?v=SLngG1WuM5U&amp;t=102s" target="_blank" rel="noopener" data-yt="SLngG1WuM5U" data-start="102" data-title="Na estrada · 2007" aria-label="Assistir: Na estrada — Making of do DVD · parte 3 de 3, 2007">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/making-estrada.jpg" data-src="clips/making-estrada.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">2007</span><span class="varq-name">Na estrada</span><span class="varq-ctx">Making of do DVD · parte 3 de 3</span></span>
+          </a>
+          <a class="varq-tile" href="https://www.youtube.com/watch?v=Ruf5jP_Whk0&amp;t=84s" target="_blank" rel="noopener" data-yt="Ruf5jP_Whk0" data-start="84" data-title="I Write Sins Not Tragedies · 2007" aria-label="Assistir: I Write Sins Not Tragedies — Cover de Panic! at the Disco · Capão da Canoa, 2007">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/panic-2007.jpg" data-src="clips/panic-2007.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">2007</span><span class="varq-name">I Write Sins Not Tragedies</span><span class="varq-ctx">Cover de Panic! at the Disco · Capão da Canoa</span></span>
+          </a>
+          <a class="varq-tile varq-tile--v" href="https://www.youtube.com/watch?v=eKqxek2jNLg" target="_blank" rel="noopener" data-yt="eKqxek2jNLg" data-start="0" data-title="O reencontro · Out. 2025" data-vertical aria-label="Assistir: O reencontro — Versão vertical do show no EAT Kitchen, Out. 2025">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/show-2025-v.jpg" data-src="clips/show-2025-v.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">Out. 2025</span><span class="varq-name">O reencontro</span><span class="varq-ctx">Versão vertical do show no EAT Kitchen</span></span>
+          </a>
+          <a class="varq-tile" href="https://www.youtube.com/watch?v=gf4alASa3C4&amp;t=131s" target="_blank" rel="noopener" data-yt="gf4alASa3C4" data-start="131" data-title="Someday · 2007" aria-label="Assistir: Someday — Cover de Nickelback · Capão da Canoa, 2007">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/someday-2007.jpg" data-src="clips/someday-2007.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">2007</span><span class="varq-name">Someday</span><span class="varq-ctx">Cover de Nickelback · Capão da Canoa</span></span>
+          </a>
+          <a class="varq-tile" href="https://www.youtube.com/watch?v=gFGzp6_xRuQ&amp;t=88s" target="_blank" rel="noopener" data-yt="gFGzp6_xRuQ" data-start="88" data-title="In the End · RS Festival" aria-label="Assistir: In the End — Cover de Linkin Park · Capão da Canoa, RS Festival">
+            <video class="loop" muted loop playsinline preload="none" poster="clips/in-the-end-2009.jpg" data-src="clips/in-the-end-2009.mp4" aria-hidden="true"></video>
+            <span class="varq-go" aria-hidden="true"><svg viewBox="0 0 10 12" aria-hidden="true"><path fill="currentColor" d="M0 0l10 6-10 6z"/></svg></span>
+            <span class="varq-cap"><span class="varq-year">RS Festival</span><span class="varq-name">In the End</span><span class="varq-ctx">Cover de Linkin Park · Capão da Canoa</span></span>
+          </a>
+      </div>
+
+      <a class="varq-cta fade-in" href="https://www.youtube.com/playlist?list=PLDiyxWMBK9zoRrxFm8PNoJpjrSyACf2PW" target="_blank" rel="noopener">
+        <span class="varq-cta-kicker">Arquivo oficial no YouTube &middot; 18 vídeos</span>
+        <span class="varq-cta-title">Assista a tudo, na íntegra</span>
+        <span class="varq-cta-arrow" aria-hidden="true">&rarr;</span>
+      </a>
     </div>
   </section>
 
@@ -3779,6 +4102,120 @@
 
     if (!reduce) document.querySelectorAll(".shader-bg").forEach(createShaderBG);
   </script>
+
+<!-- ============ PLAYER DE VÍDEO (abre por [data-yt]) ============ -->
+<dialog class="yt-dialog" id="yt-dialog" aria-label="Player de vídeo">
+  <div class="yt-frame"></div>
+  <div class="yt-bar">
+    <span class="yt-title"></span>
+    <span class="yt-actions">
+      <a class="yt-ext" href="#" target="_blank" rel="noopener">Abrir no YouTube &nearr;</a>
+      <button class="yt-close" type="button" aria-label="Fechar vídeo"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+    </span>
+  </div>
+</dialog>
+
+<script>
+/* Loops de vídeo (clips/) + player do YouTube.
+   - .loop[data-src]: src só entra perto da viewport; toca só enquanto visível.
+   - [data-hover-loop]: loop que só toca no hover (capas da discografia, desktop).
+   - reduced-motion / economia de dados: fica no pôster, nada é baixado.
+   - [data-yt]: abre o vídeo completo no dialog (youtube-nocookie), já no trecho. */
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saveData = navigator.connection && navigator.connection.saveData;
+  var canHover = window.matchMedia('(hover: hover)').matches;
+  var still = reduce || saveData;
+
+  function load(v) {
+    if (!v.dataset.src) return;
+    v.src = v.dataset.src;
+    v.removeAttribute('data-src');
+  }
+  function play(v) {
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+
+  var autoLoops = Array.prototype.filter.call(document.querySelectorAll('video.loop'), function (v) {
+    return !v.closest('[data-hover-loop]');
+  });
+
+  if (!still && 'IntersectionObserver' in window) {
+    var near = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { load(e.target); near.unobserve(e.target); }
+      });
+    }, { rootMargin: '400px 0px' });
+    var vis = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        e.target._inView = e.isIntersecting;
+        if (e.isIntersecting && !document.hidden) { load(e.target); play(e.target); }
+        else e.target.pause();
+      });
+    }, { threshold: 0.2 });
+    autoLoops.forEach(function (v) { near.observe(v); vis.observe(v); });
+    document.addEventListener('visibilitychange', function () {
+      autoLoops.forEach(function (v) {
+        if (document.hidden) v.pause(); else if (v._inView) play(v);
+      });
+    });
+  }
+
+  if (!still && canHover) {
+    document.querySelectorAll('[data-hover-loop]').forEach(function (wrap) {
+      var v = wrap.querySelector('video');
+      wrap.addEventListener('mouseenter', function () {
+        load(v); v.currentTime = 0; play(v); wrap.classList.add('is-playing');
+      });
+      wrap.addEventListener('mouseleave', function () {
+        wrap.classList.remove('is-playing');
+        setTimeout(function () { if (!wrap.classList.contains('is-playing')) v.pause(); }, 600);
+      });
+    });
+  }
+
+  /* ---- player ---- */
+  var dlg = document.getElementById('yt-dialog');
+  if (!dlg || typeof dlg.showModal !== 'function') return; // sem <dialog>: links seguem pro YouTube
+  var frame = dlg.querySelector('.yt-frame');
+  var title = dlg.querySelector('.yt-title');
+  var ext = dlg.querySelector('.yt-ext');
+  var opener = null;
+
+  function open(el) {
+    var id = el.dataset.yt, t = parseInt(el.dataset.start || '0', 10) || 0;
+    opener = el;
+    frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+      '?autoplay=1&rel=0&playsinline=1' + (t ? '&start=' + t : '') +
+      '" title="' + (el.dataset.title || 'Vídeo da Magma').replace(/"/g, '&quot;') +
+      '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+    title.textContent = el.dataset.title || '';
+    ext.href = 'https://www.youtube.com/watch?v=' + id + (t ? '&t=' + t + 's' : '');
+    dlg.classList.toggle('is-vertical', el.hasAttribute('data-vertical'));
+    if (window._lenis) window._lenis.stop();
+    autoLoops.forEach(function (v) { v.pause(); });
+    dlg.showModal();
+    if (window.gtag) gtag('event', 'video_open', { video_id: id, start: t });
+  }
+  function close() { if (dlg.open) dlg.close(); }
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-yt]');
+    if (!el || e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+    e.preventDefault();
+    open(el);
+  });
+  dlg.querySelector('.yt-close').addEventListener('click', close);
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+  dlg.addEventListener('close', function () {
+    frame.innerHTML = '';
+    if (window._lenis) window._lenis.start();
+    autoLoops.forEach(function (v) { if (v._inView) play(v); });
+    if (opener) opener.focus({ preventScroll: true });
+  });
+})();
+</script>
 
 </body>
 </html>
