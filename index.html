@@ -2287,8 +2287,8 @@
     <div class="flare flare-dot"    data-depth="2.0" style="top:50%;left:22%;"                                    aria-hidden="true"></div>
 
     <div class="hero-content">
-      <!-- Logo oficial -->
-      <svg viewBox="0 0 1280 260" class="hero-logo-svg" role="img" aria-label="Logo Magma">
+      <!-- Logo oficial. viewBox justo: 1257.3 = borda externa do anel (1010 + (256+250.5)*0.48828), p/ o lockup ficar centrado -->
+      <svg viewBox="0 0 1257.3 260" class="hero-logo-svg" role="img" aria-label="Logo Magma">
         <defs>
           <mask id="hero-flame-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
             <rect width="512" height="512" fill="white"/>
@@ -3889,7 +3889,7 @@
     import {
       animate, createTimeline, stagger, spring, svg,
       splitText, onScroll, createAnimatable, utils,
-    } from 'https://esm.sh/animejs';
+    } from 'https://esm.sh/animejs@4.5.0';
 
     const docEl = document.documentElement;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -3910,7 +3910,9 @@
           // as letras de MAGMA surgem uma a uma, da esquerda para a direita
           .add('.wm-letter', { opacity: [0, 1], y: [64, 0], duration: 460, delay: stagger(80) })
           // a bolinha da chama entra logo após a última letra: anel desenha + chama revelada por máscara
-          .add(heroRing, { opacity: [0, 1], draw: ['0 0', '0 1'], duration: 640, ease: 'inOut(3)' }, '-=100')
+          // draw no proxy do createDrawable; opacity no elemento (na 4.5 o proxy quebra com propriedade CSS)
+          .add(heroRing, { draw: ['0 0', '0 1'], duration: 640, ease: 'inOut(3)' }, '-=100')
+          .add('#hero-ring', { opacity: [0, 1], duration: 640, ease: 'inOut(3)' }, '<<')
           .add('#hero-disc-wipe', { r: [0, 240], duration: 560, ease: 'out(3)' }, '-=440')
           .add('#hero-ring', { stroke: ['#E05A1A', '#FFB060', '#E05A1A'], duration: 500 }, '<')
           .add('.hero-location', { opacity: [0, 1], y: [16, 0] }, '-=220')
